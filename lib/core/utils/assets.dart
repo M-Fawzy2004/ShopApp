@@ -46,8 +46,16 @@ class Assets {
   /// assets/images/icon/save_icon.png
   static const String imagesIconSaveIcon = "assets/images/icon/save_icon.png";
 
+  /// Assets for imagesPngForgetPassImage
+  /// assets/images/png/forget_pass_image.png
+  static const String imagesPngForgetPassImage = "assets/images/png/forget_pass_image.png";
+
   /// Assets for imagesPngSendMail
   /// assets/images/png/send_mail.png
   static const String imagesPngSendMail = "assets/images/png/send_mail.png";
+
+  /// Assets for imagesPngVerfEmail
+  /// assets/images/png/verf_email.png
+  static const String imagesPngVerfEmail = "assets/images/png/verf_email.png";
 }
 

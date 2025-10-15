@@ -1,7 +1,7 @@
 import 'package:clothes_ecommerce_app/core/helper/spacing.dart';
 import 'package:clothes_ecommerce_app/core/theme/app_styles.dart';
 import 'package:clothes_ecommerce_app/core/widget/icon_back.dart';
-import 'package:clothes_ecommerce_app/feature/auth/presentation/view/widget/register_form.dart';
+import 'package:clothes_ecommerce_app/feature/auth/presentation/view/widget/register_form_bloc_consumer.dart';
 import 'package:flutter/material.dart';
 
 class RegisterViewBody extends StatelessWidget {
@@ -22,7 +22,7 @@ class RegisterViewBody extends StatelessWidget {
             style: AppStyles.font32BlackBold(context),
           ),
           heightBox(32),
-          const RegisterForm(),
+          const RegisterFormBlocConsumer(),
         ],
       ),
     );
