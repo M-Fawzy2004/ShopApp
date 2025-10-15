@@ -10,8 +10,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EmailVerfViewBody extends StatefulWidget {
   final String email;
-  
-  const EmailVerfViewBody({super.key, required this.email});
+  final bool isLoading;
+
+  const EmailVerfViewBody({
+    super.key,
+    required this.email,
+    required this.isLoading,
+  });
 
   @override
   State<EmailVerfViewBody> createState() => _EmailVerfViewBodyState();
@@ -54,12 +59,16 @@ class _EmailVerfViewBodyState extends State<EmailVerfViewBody> {
                 heightBox(24),
                 CustomButton(
                   text: 'Verify',
-                  onPressed: handleVerify,
+                  onPressed: widget.isLoading ? null : handleVerify,
+                  isLoading: widget.isLoading,
                 ),
                 heightBox(16),
                 TextButton(
                   onPressed: handleResendCode,
-                  child: const Text('Resend Code'),
+                  child: Text(
+                    'Resend Code',
+                    style: AppStyles.font12GreyBold(context),
+                  ),
                 ),
               ],
             ),
@@ -78,9 +87,9 @@ class _EmailVerfViewBodyState extends State<EmailVerfViewBody> {
   void handleVerify() {
     if (formKey.currentState!.validate()) {
       context.read<AuthCubit>().verifyEmailOTP(
-        email: widget.email,
-        token: codeController.text.trim(),
-      );
+            email: widget.email,
+            token: codeController.text.trim(),
+          );
     }
   }
 

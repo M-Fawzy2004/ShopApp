@@ -32,7 +32,8 @@ class LoginFormBlocConsumer extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        return const LoginForm();
+        final isLoading = state is AuthLoading;
+        return LoginForm(isLoading: isLoading);
       },
     );
   }

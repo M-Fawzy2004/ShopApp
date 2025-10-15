@@ -24,7 +24,8 @@ class RegisterFormBlocConsumer extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        return const RegisterForm();
+        final isLoading = state is AuthLoading;
+        return RegisterForm(isLoading: isLoading);
       },
     );
   }

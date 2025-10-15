@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterForm extends StatefulWidget {
-  const RegisterForm({super.key});
+  const RegisterForm({super.key, required this.isLoading});
+
+  final bool isLoading;
 
   @override
   State<RegisterForm> createState() => _RegisterFormState();
@@ -71,7 +73,8 @@ class _RegisterFormState extends State<RegisterForm> {
           heightBox(40),
           CustomButton(
             text: 'Verify Email',
-            onPressed: handleRegister,
+            isLoading: widget.isLoading,
+            onPressed: widget.isLoading ? null : handleRegister,
           ),
         ],
       ),
