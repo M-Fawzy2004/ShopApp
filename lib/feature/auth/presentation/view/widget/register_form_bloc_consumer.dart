@@ -12,9 +12,16 @@ class RegisterFormBlocConsumer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
+      listenWhen: (previous, current) =>
+          current is AuthVerificationRequired || current is AuthError,
       listener: (context, state) {
         if (state is AuthVerificationRequired) {
-          context.push(AppRouter.emailVerfView, extra: state.email);
+          context.push(
+            AppRouter.emailVerfView,
+            extra: {
+              'email': state.email,
+            },
+          );
         } else if (state is AuthError) {
           CustomSnackBar.show(
             context,
@@ -23,6 +30,11 @@ class RegisterFormBlocConsumer extends StatelessWidget {
           );
         }
       },
+      buildWhen: (previous, current) =>
+          current is AuthLoading ||
+          current is AuthInitial ||
+          current is AuthError ||
+          current is AuthVerificationRequired,
       builder: (context, state) {
         final isLoading = state is AuthLoading;
         return RegisterForm(isLoading: isLoading);

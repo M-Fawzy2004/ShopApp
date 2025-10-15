@@ -1,6 +1,5 @@
 import 'package:clothes_ecommerce_app/core/helper/spacing.dart';
 import 'package:clothes_ecommerce_app/core/theme/app_styles.dart';
-import 'package:clothes_ecommerce_app/core/utils/assets.dart';
 import 'package:clothes_ecommerce_app/core/widget/custom_button.dart';
 import 'package:clothes_ecommerce_app/core/widget/custom_text_field.dart';
 import 'package:clothes_ecommerce_app/core/widget/icon_back.dart';
@@ -40,7 +39,7 @@ class _EmailVerfViewBodyState extends State<EmailVerfViewBody> {
             'Email Verification',
             style: AppStyles.font32BlackBold(context),
           ),
-          Image.asset(Assets.imagesPngVerfEmail),
+          heightBox(32),
           Form(
             key: formKey,
             child: Column(
@@ -49,12 +48,22 @@ class _EmailVerfViewBodyState extends State<EmailVerfViewBody> {
                   controller: TextEditingController(text: widget.email),
                   hintText: 'Enter Email Address',
                   keyboardType: TextInputType.emailAddress,
+                  enabled: false,
                 ),
                 heightBox(20),
                 CustomTextField(
                   controller: codeController,
                   hintText: 'Enter Code',
                   keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter verification code';
+                    }
+                    if (value.length != 6) {
+                      return 'Code must be 6 digits';
+                    }
+                    return null;
+                  },
                 ),
                 heightBox(24),
                 CustomButton(
@@ -64,7 +73,7 @@ class _EmailVerfViewBodyState extends State<EmailVerfViewBody> {
                 ),
                 heightBox(16),
                 TextButton(
-                  onPressed: handleResendCode,
+                  onPressed: widget.isLoading ? null : handleResendCode,
                   child: Text(
                     'Resend Code',
                     style: AppStyles.font12GreyBold(context),

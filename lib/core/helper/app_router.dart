@@ -62,8 +62,8 @@ abstract class AppRouter {
       GoRoute(
         path: emailVerfView,
         builder: (BuildContext context, GoRouterState state) {
-          final email = state.extra as String;
-          return AppProviders.auth(child: EmailVerfView(email: email));
+          final data = state.extra as Map<String, dynamic>;
+          return AppProviders.auth(child: EmailVerfView(data: data));
         },
       ),
     ],
