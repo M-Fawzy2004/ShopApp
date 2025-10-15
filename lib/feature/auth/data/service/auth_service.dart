@@ -42,7 +42,7 @@ class AuthService {
     }
 
     final displayName = response.user!.userMetadata?['display_name'] as String?;
-    
+
     final profileData = {
       'id': response.user!.id,
       'email': response.user!.email,
@@ -80,30 +80,29 @@ class AuthService {
   }
 
   Future<UserModel> signInWithGoogle() async {
-    final googleUser = await googleSignIn.signIn();
-    if (googleUser == null) {
-      throw Exception('Google sign in cancelled');
+    try {
+      final googleUser = await googleSignIn.signIn();
+      if (googleUser == null) {
+        throw Exception('Google sign in cancelled');
+      }
+
+      final googleAuth = await googleUser.authentication;
+
+      final response = await supabaseClient.auth.signInWithIdToken(
+        provider: OAuthProvider.google,
+        idToken: googleAuth.idToken!,
+        accessToken: googleAuth.accessToken,
+      );
+
+      if (response.user == null) {
+        throw Exception('Failed to sign in with Google');
+      }
+
+      return await getUserProfile(response.user!.id);
+    } catch (e) {
+      print('Sign in error: $e');
+      rethrow;
     }
-
-    final googleAuth = await googleUser.authentication;
-    final accessToken = googleAuth.accessToken;
-    final idToken = googleAuth.idToken;
-
-    if (accessToken == null || idToken == null) {
-      throw Exception('Failed to get Google credentials');
-    }
-
-    final response = await supabaseClient.auth.signInWithIdToken(
-      provider: OAuthProvider.google,
-      idToken: idToken,
-      accessToken: accessToken,
-    );
-
-    if (response.user == null) {
-      throw Exception('Google sign in failed');
-    }
-
-    return await getUserProfile(response.user!.id);
   }
 
   Future<UserModel> signInWithApple() async {
