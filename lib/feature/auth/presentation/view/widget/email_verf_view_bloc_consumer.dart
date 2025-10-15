@@ -32,7 +32,11 @@ class EmailVerfViewBlocConsumer extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        return EmailVerfViewBody(email: email);
+        final isLoading = state is AuthLoading;
+        return EmailVerfViewBody(
+          email: email,
+          isLoading: isLoading,
+        );
       },
     );
   }

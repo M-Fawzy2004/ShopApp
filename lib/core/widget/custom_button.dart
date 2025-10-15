@@ -1,3 +1,4 @@
+import 'package:clothes_ecommerce_app/core/helper/custom_loading_widget.dart';
 import 'package:clothes_ecommerce_app/core/theme/app_colors.dart';
 import 'package:clothes_ecommerce_app/core/theme/app_styles.dart';
 import 'package:flutter/material.dart';
@@ -53,10 +54,16 @@ class CustomButton extends StatelessWidget {
               : null,
         ),
         child: Center(
-          child: Text(
-            text,
-            style: AppStyles.font16WhiteMedium(context),
-          ),
+          child: isLoading
+              ? const CustomLoadingWidget()
+              : Text(
+                  text,
+                  style: AppStyles.font16WhiteMedium(context).copyWith(
+                    color: textColor,
+                    fontSize: fontSize,
+                    fontWeight: fontWeight,
+                  ),
+                ),
         ),
       ),
     );

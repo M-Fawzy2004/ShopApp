@@ -11,7 +11,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+  const LoginForm({super.key, required this.isLoading});
+
+  final bool isLoading;
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -61,7 +63,8 @@ class _LoginFormState extends State<LoginForm> {
           heightBox(30),
           CustomButton(
             text: 'Sign In',
-            onPressed: _handleLogin,
+            onPressed: widget.isLoading ? null : _handleLogin,
+            isLoading: widget.isLoading,
           ),
         ],
       ),
