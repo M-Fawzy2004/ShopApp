@@ -13,6 +13,7 @@ class CustomTextField extends StatefulWidget {
     this.prefixIcon,
     this.isPassword = false,
     this.keyboardType,
+    this.enabled = true,
   });
 
   final String? Function(String?)? validator;
@@ -22,6 +23,7 @@ class CustomTextField extends StatefulWidget {
   final Widget? prefixIcon;
   final bool isPassword;
   final TextInputType? keyboardType;
+  final bool enabled;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -37,12 +39,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
       controller: widget.controller,
       keyboardType: widget.keyboardType,
       obscureText: widget.isPassword ? _obscureText : false,
+      enabled: widget.enabled,
       style: AppStyles.font16BlackBold(context),
       decoration: InputDecoration(
         hintText: widget.hintText,
         hintStyle: AppStyles.font16greyBold(context),
         filled: true,
-        fillColor: AppColors.lightGrey,
+        fillColor: widget.enabled
+            ? AppColors.lightGrey
+            : AppColors.lightGrey.withOpacity(0.5),
         prefixIcon: widget.prefixIcon,
         suffixIcon: widget.isPassword
             ? IconButton(
@@ -70,6 +75,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
           borderSide: BorderSide.none,
         ),
         focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.medium),
+          borderSide: BorderSide.none,
+        ),
+        disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.medium),
           borderSide: BorderSide.none,
         ),

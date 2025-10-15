@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:clothes_ecommerce_app/feature/auth/domain/entities/user_entity.dart';
 import 'package:clothes_ecommerce_app/feature/auth/domain/repo/auth_repository.dart';
@@ -7,22 +8,25 @@ part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepository authRepository;
+  StreamSubscription<UserEntity?>? authSubscription;
 
   AuthCubit({required this.authRepository}) : super(AuthInitial()) {
-    _initAuthListener();
+    initAuthListener();
   }
 
-  void _initAuthListener() {
-    authRepository.authStateChanges.listen((user) {
-      if (user != null) {
-        emit(AuthAuthenticated(user));
-      } else {
-        emit(AuthUnauthenticated());
+  void initAuthListener() {
+    authSubscription?.cancel();
+    authSubscription = authRepository.authStateChanges.listen((user) {
+      if (!isClosed) {
+        if (user != null) {
+          emit(AuthAuthenticated(user));
+        } else {
+          emit(AuthUnauthenticated());
+        }
       }
     });
   }
 
-  // Sign up with email
   Future<void> signUpWithEmail({
     required String email,
     required String password,
@@ -42,7 +46,6 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  // Verify email OTP
   Future<void> verifyEmailOTP({
     required String email,
     required String token,
@@ -60,7 +63,6 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  // Resend verification code
   Future<void> resendVerificationCode(String email) async {
     emit(AuthLoading());
 
@@ -75,7 +77,6 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  // Sign in with email
   Future<void> signInWithEmail({
     required String email,
     required String password,
@@ -93,7 +94,6 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  // Sign in with Google
   Future<void> signInWithGoogle() async {
     emit(AuthLoading());
 
@@ -105,7 +105,6 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  // Sign in with Apple
   Future<void> signInWithApple() async {
     emit(AuthLoading());
 
@@ -117,7 +116,6 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  // Send password reset code
   Future<void> sendPasswordResetCode(String email) async {
     emit(AuthLoading());
 
@@ -129,7 +127,6 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  // Verify password reset code
   Future<void> verifyPasswordResetCode({
     required String email,
     required String token,
@@ -147,7 +144,6 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  // Reset password
   Future<void> resetPassword({
     required String email,
     required String token,
@@ -170,7 +166,6 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  // Upload profile photo
   Future<void> uploadProfilePhoto({
     required String userId,
     required String filePath,
@@ -185,13 +180,12 @@ class AuthCubit extends Cubit<AuthState> {
     result.fold(
       (failure) => emit(AuthError(failure.message)),
       (photoUrl) async {
-        await _refreshUser();
+        await refreshUser();
         emit(const AuthSuccess('Profile photo uploaded successfully'));
       },
     );
   }
 
-  // Delete profile photo
   Future<void> deleteProfilePhoto(String userId) async {
     emit(AuthLoading());
 
@@ -200,13 +194,12 @@ class AuthCubit extends Cubit<AuthState> {
     result.fold(
       (failure) => emit(AuthError(failure.message)),
       (_) async {
-        await _refreshUser();
+        await refreshUser();
         emit(const AuthSuccess('Profile photo deleted successfully'));
       },
     );
   }
 
-  // Update user profile
   Future<void> updateUserProfile({
     String? displayName,
     String? photoUrl,
@@ -227,7 +220,6 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  // Sign out
   Future<void> signOut() async {
     emit(AuthLoading());
 
@@ -239,7 +231,6 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  // Delete account
   Future<void> deleteAccount() async {
     emit(AuthLoading());
 
@@ -251,8 +242,7 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  // Refresh current user
-  Future<void> _refreshUser() async {
+  Future<void> refreshUser() async {
     final result = await authRepository.getCurrentUser();
     result.fold(
       (failure) => emit(AuthError(failure.message)),
@@ -262,5 +252,11 @@ class AuthCubit extends Cubit<AuthState> {
         }
       },
     );
+  }
+
+  @override
+  Future<void> close() {
+    authSubscription?.cancel();
+    return super.close();
   }
 }

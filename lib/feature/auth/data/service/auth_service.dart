@@ -14,27 +14,19 @@ class AuthService {
     required this.googleSignIn,
   });
 
-  // Sign up with email
   Future<void> signUpWithEmail({
     required String email,
     required String password,
     String? displayName,
   }) async {
-    final metadata = displayName != null
-        ? {
-            'display_name': displayName,
-          }
-        : null;
-
     await supabaseClient.auth.signUp(
       email: email,
       password: password,
-      data: metadata,
+      data: displayName != null ? {'display_name': displayName} : null,
       emailRedirectTo: null,
     );
   }
 
-  // Verify email OTP
   Future<UserModel> verifyEmailOTP({
     required String email,
     required String token,
@@ -49,11 +41,21 @@ class AuthService {
       throw Exception('Verification failed');
     }
 
-    // Get user profile from profiles table
-    return await _getUserProfile(response.user!.id);
+    final displayName = response.user!.userMetadata?['display_name'] as String?;
+    
+    final profileData = {
+      'id': response.user!.id,
+      'email': response.user!.email,
+      'display_name': displayName,
+      'avatar_url': null,
+      'created_at': DateTime.now().toIso8601String(),
+    };
+
+    await supabaseClient.from(AppConst.tabelProfileUser).upsert(profileData);
+
+    return await getUserProfile(response.user!.id);
   }
 
-  // Resend verification code
   Future<void> resendVerificationCode(String email) async {
     await supabaseClient.auth.resend(
       type: OtpType.signup,
@@ -61,7 +63,6 @@ class AuthService {
     );
   }
 
-  // Sign in with email
   Future<UserModel> signInWithEmail({
     required String email,
     required String password,
@@ -75,11 +76,9 @@ class AuthService {
       throw Exception('Sign in failed');
     }
 
-    // Get user profile from profiles table
-    return await _getUserProfile(response.user!.id);
+    return await getUserProfile(response.user!.id);
   }
 
-  // Sign in with Google
   Future<UserModel> signInWithGoogle() async {
     final googleUser = await googleSignIn.signIn();
     if (googleUser == null) {
@@ -104,11 +103,9 @@ class AuthService {
       throw Exception('Google sign in failed');
     }
 
-    // Get user profile from profiles table
-    return await _getUserProfile(response.user!.id);
+    return await getUserProfile(response.user!.id);
   }
 
-  // Sign in with Apple
   Future<UserModel> signInWithApple() async {
     final credential = await SignInWithApple.getAppleIDCredential(
       scopes: [
@@ -131,16 +128,13 @@ class AuthService {
       throw Exception('Apple sign in failed');
     }
 
-    // Get user profile from profiles table
-    return await _getUserProfile(response.user!.id);
+    return await getUserProfile(response.user!.id);
   }
 
-  // Send password reset code
   Future<void> sendPasswordResetCode(String email) async {
     await supabaseClient.auth.resetPasswordForEmail(email);
   }
 
-  // Verify password reset code
   Future<void> verifyPasswordResetCode({
     required String email,
     required String token,
@@ -152,22 +146,18 @@ class AuthService {
     );
   }
 
-  // Reset password
   Future<void> resetPassword({
     required String email,
     required String token,
     required String newPassword,
   }) async {
-    // First verify the OTP
     await verifyPasswordResetCode(email: email, token: token);
 
-    // Then update the password
     await supabaseClient.auth.updateUser(
       UserAttributes(password: newPassword),
     );
   }
 
-  // Upload profile photo
   Future<String> uploadProfilePhoto({
     required String userId,
     required String filePath,
@@ -190,7 +180,6 @@ class AuthService {
         .from(AppConst.tabelProfileUser)
         .getPublicUrl(storagePath);
 
-    // Update profiles table
     await supabaseClient
         .from(AppConst.tabelProfileUser)
         .update({'avatar_url': photoUrl}).eq('id', userId);
@@ -198,9 +187,7 @@ class AuthService {
     return photoUrl;
   }
 
-  // Delete profile photo
   Future<void> deleteProfilePhoto(String userId) async {
-    // Get current avatar URL
     final response = await supabaseClient
         .from(AppConst.tabelProfileUser)
         .select('avatar_url')
@@ -210,23 +197,19 @@ class AuthService {
     final photoUrl = response['avatar_url'] as String?;
 
     if (photoUrl != null) {
-      // Extract file path from URL
       final uri = Uri.parse(photoUrl);
       final path = uri.pathSegments.skip(3).join('/');
 
-      // Delete from storage
       await supabaseClient.storage
           .from(AppConst.tabelProfileUser)
           .remove([path]);
 
-      // Update profiles table
       await supabaseClient
           .from(AppConst.tabelProfileUser)
           .update({'avatar_url': null}).eq('id', userId);
     }
   }
 
-  // Update user profile
   Future<UserModel> updateUserProfile({
     String? displayName,
     String? photoUrl,
@@ -238,63 +221,53 @@ class AuthService {
     if (displayName != null) data['display_name'] = displayName;
     if (photoUrl != null) data['avatar_url'] = photoUrl;
 
-    // Update profiles table
     await supabaseClient
         .from(AppConst.tabelProfileUser)
         .update(data)
         .eq('id', userId);
 
-    // Get updated profile
-    return await _getUserProfile(userId);
+    return await getUserProfile(userId);
   }
 
-  // Get current user
   Future<UserModel?> getCurrentUser() async {
     final user = supabaseClient.auth.currentUser;
     if (user == null) return null;
 
-    return await _getUserProfile(user.id);
+    return await getUserProfile(user.id);
   }
 
-  // Sign out
   Future<void> signOut() async {
     await googleSignIn.signOut();
     await supabaseClient.auth.signOut();
   }
 
-  // Delete account
   Future<void> deleteAccount() async {
     final user = supabaseClient.auth.currentUser;
     if (user == null) throw Exception('No user logged in');
 
-    // Delete profile photo if exists
     try {
       await deleteProfilePhoto(user.id);
     } catch (_) {}
 
-    // Call Supabase function to delete user (will cascade delete profile)
     await supabaseClient.rpc('delete_user');
 
-    // Sign out
     await signOut();
   }
 
-  // Auth state changes stream
   Stream<UserModel?> get authStateChanges {
     return supabaseClient.auth.onAuthStateChange.asyncMap((event) async {
       final user = event.session?.user;
       if (user == null) return null;
 
       try {
-        return await _getUserProfile(user.id);
+        return await getUserProfile(user.id);
       } catch (e) {
         return null;
       }
     });
   }
 
-  // Private helper: Get user profile from profiles table
-  Future<UserModel> _getUserProfile(String userId) async {
+  Future<UserModel> getUserProfile(String userId) async {
     final response = await supabaseClient
         .from(AppConst.tabelProfileUser)
         .select()

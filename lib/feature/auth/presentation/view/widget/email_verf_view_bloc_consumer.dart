@@ -14,6 +14,10 @@ class EmailVerfViewBlocConsumer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
+      listenWhen: (previous, current) =>
+          current is AuthAuthenticated ||
+          current is AuthError ||
+          current is AuthSuccess,
       listener: (context, state) {
         if (state is AuthAuthenticated) {
           context.go(AppRouter.mainView);
