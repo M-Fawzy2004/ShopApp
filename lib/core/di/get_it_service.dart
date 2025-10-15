@@ -22,7 +22,12 @@ Future<void> initDependencies() async {
 
   getIt.registerLazySingleton<GoogleSignIn>(
     () => GoogleSignIn(
-      scopes: ['email', 'profile'],
+      scopes: [
+        'email',
+        'profile',
+        'openid',
+      ],
+      serverClientId: AppConst.googleClientId,
     ),
   );
 
