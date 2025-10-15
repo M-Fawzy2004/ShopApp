@@ -13,4 +13,6 @@ class AppColors {
   static const Color darkGrey = Color(0xff8E8E8E);
   // dark
   static const Color dark = Color(0xff272727);
+  // error
+  static const Color error = Colors.red;
 }

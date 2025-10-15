@@ -37,7 +37,7 @@ class SocialButton extends StatelessWidget {
               width: 25.w,
               fit: BoxFit.contain,
             ),
-            widthBox(50),
+            widthBox(70),
             Text(
               text,
               style: AppStyles.font16BlackMedium(context),

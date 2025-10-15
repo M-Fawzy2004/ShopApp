@@ -34,8 +34,20 @@ class AppStyles {
         color: AppColors.white,
       );
 
+  static TextStyle font14WhiteMedium(BuildContext context) => TextStyle(
+        fontSize: 14.sp,
+        fontWeight: FontWeightHelper.medium,
+        color: AppColors.white,
+      );
+
   static TextStyle font12BlackMedium(BuildContext context) => TextStyle(
         fontSize: 12.sp,
+        fontWeight: FontWeightHelper.medium,
+        color: AppColors.black,
+      );
+
+  static TextStyle font14BlackMedium(BuildContext context) => TextStyle(
+        fontSize: 14.sp,
         fontWeight: FontWeightHelper.medium,
         color: AppColors.black,
       );
@@ -50,6 +62,12 @@ class AppStyles {
         fontSize: 12.sp,
         fontWeight: FontWeightHelper.bold,
         color: AppColors.darkGrey,
+      );
+
+  static TextStyle font12WhiteBold(BuildContext context) => TextStyle(
+        fontSize: 12.sp,
+        fontWeight: FontWeightHelper.bold,
+        color: AppColors.white,
       );
 
   static TextStyle font24BlackMedium(BuildContext context) => TextStyle(

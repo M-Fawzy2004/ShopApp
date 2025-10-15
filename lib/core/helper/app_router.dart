@@ -1,3 +1,4 @@
+import 'package:clothes_ecommerce_app/core/di/app_providers.dart';
 import 'package:clothes_ecommerce_app/feature/auth/presentation/view/forget_password_view.dart';
 import 'package:clothes_ecommerce_app/feature/auth/presentation/view/login_view.dart';
 import 'package:clothes_ecommerce_app/feature/auth/presentation/view/register_view.dart';
@@ -28,20 +29,20 @@ abstract class AppRouter {
       GoRoute(
         path: loginView,
         builder: (BuildContext context, GoRouterState state) {
-          return const LoginView();
+          return AppProviders.auth(child: const LoginView());
         },
       ),
       // register
       GoRoute(
         path: registerView,
         builder: (BuildContext context, GoRouterState state) {
-          return const RegisterView();
+          return AppProviders.auth(child: const RegisterView());
         },
       ), // register
       GoRoute(
         path: forgetPasswordView,
         builder: (BuildContext context, GoRouterState state) {
-          return const ForgetPasswordView();
+          return AppProviders.auth(child: const ForgetPasswordView());
         },
       ),
       GoRoute(
