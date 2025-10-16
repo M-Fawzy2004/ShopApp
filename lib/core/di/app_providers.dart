@@ -1,5 +1,6 @@
 import 'package:clothes_ecommerce_app/core/di/get_it_service.dart';
 import 'package:clothes_ecommerce_app/feature/auth/presentation/manager/auth_cubit/auth_cubit.dart';
+import 'package:clothes_ecommerce_app/feature/home/presentation/manager/category_cubit/category_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,6 +10,13 @@ class AppProviders {
   static Widget auth({required Widget child}) {
     return BlocProvider<AuthCubit>(
       create: (_) => getIt<AuthCubit>(),
+      child: child,
+    );
+  }
+
+  static Widget getApi({required Widget child}) {
+    return BlocProvider<CategoryCubit>(
+      create: (_) => getIt<CategoryCubit>()..getCategories(),
       child: child,
     );
   }

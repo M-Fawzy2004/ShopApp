@@ -18,6 +18,7 @@ abstract class AppRouter {
   static const emailVerfView = '/emailVerfView';
   static const resetPasswordView = '/resetPasswordView';
 
+
   static var router = GoRouter(
     routes: [
       // splash view
@@ -50,7 +51,7 @@ abstract class AppRouter {
       GoRoute(
         path: mainView,
         builder: (BuildContext context, GoRouterState state) {
-          return const MainView();
+          return  MainView();
         },
       ),
       GoRoute(

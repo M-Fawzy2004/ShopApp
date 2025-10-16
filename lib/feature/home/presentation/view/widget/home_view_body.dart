@@ -1,5 +1,7 @@
 import 'package:clothes_ecommerce_app/core/helper/spacing.dart';
 import 'package:clothes_ecommerce_app/core/theme/app_colors.dart';
+import 'package:clothes_ecommerce_app/feature/home/presentation/view/widget/categories_header_row.dart';
+import 'package:clothes_ecommerce_app/feature/home/presentation/view/widget/categories_list_bloc_consumer.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/view/widget/home_app_bar_section.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/view/widget/custom_search_field.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +31,16 @@ class HomeViewBody extends StatelessWidget {
           ),
         ),
         SliverToBoxAdapter(
-          child: heightBox(25),
+          child: heightBox(15),
+        ),
+        const SliverToBoxAdapter(
+          child: CategoriesHeaderRow(),
+        ),
+        SliverToBoxAdapter(
+          child: heightBox(20),
+        ),
+        const SliverToBoxAdapter(
+          child: CategoriesListBlocConsumer(),
         ),
       ],
     );

@@ -75,4 +75,10 @@ class AppStyles {
         fontWeight: FontWeightHelper.medium,
         color: AppColors.black,
       );
+
+  static TextStyle font13BlackMedium(BuildContext context) => TextStyle(
+        fontSize: 13.sp,
+        fontWeight: FontWeightHelper.medium,
+        color: AppColors.black,
+      );
 }
