@@ -100,7 +100,6 @@ class AuthService {
 
       return await getUserProfile(response.user!.id);
     } catch (e) {
-      print('Sign in error: $e');
       rethrow;
     }
   }

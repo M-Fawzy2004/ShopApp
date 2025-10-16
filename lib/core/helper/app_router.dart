@@ -3,7 +3,6 @@ import 'package:clothes_ecommerce_app/feature/auth/presentation/view/email_verf_
 import 'package:clothes_ecommerce_app/feature/auth/presentation/view/forget_password_view.dart';
 import 'package:clothes_ecommerce_app/feature/auth/presentation/view/login_view.dart';
 import 'package:clothes_ecommerce_app/feature/auth/presentation/view/register_view.dart';
-import 'package:clothes_ecommerce_app/feature/auth/presentation/view/send_email_view.dart';
 import 'package:clothes_ecommerce_app/feature/main_home/presentation/view/main_view.dart';
 import 'package:clothes_ecommerce_app/feature/splash/presentation/view/splash_view.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,6 @@ abstract class AppRouter {
   static const loginView = '/loginView';
   static const registerView = '/registerView';
   static const forgetPasswordView = '/forgetPasswordView';
-  static const sendEmailView = '/sendEmailView';
   static const mainView = '/mainView';
   static const emailVerfView = '/emailVerfView';
 
@@ -45,12 +43,6 @@ abstract class AppRouter {
         path: forgetPasswordView,
         builder: (BuildContext context, GoRouterState state) {
           return AppProviders.auth(child: const ForgetPasswordView());
-        },
-      ),
-      GoRoute(
-        path: sendEmailView,
-        builder: (BuildContext context, GoRouterState state) {
-          return const SendEmailView();
         },
       ),
       GoRoute(
