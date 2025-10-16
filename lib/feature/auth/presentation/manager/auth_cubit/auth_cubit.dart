@@ -18,6 +18,10 @@ class AuthCubit extends Cubit<AuthState> {
     authSubscription?.cancel();
     authSubscription = authRepository.authStateChanges.listen((user) {
       if (!isClosed) {
+        if (state is AuthPasswordResetInProgress) {
+          return;
+        }
+
         if (user != null) {
           emit(AuthAuthenticated(user));
         } else {
@@ -41,8 +45,8 @@ class AuthCubit extends Cubit<AuthState> {
     );
 
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
-      (_) => emit(AuthVerificationRequired(email)),
+      (failure) => _emitIfNotClosed(AuthError(failure.message)),
+      (_) => _emitIfNotClosed(AuthVerificationRequired(email)),
     );
   }
 
@@ -58,8 +62,8 @@ class AuthCubit extends Cubit<AuthState> {
     );
 
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
-      (user) => emit(AuthAuthenticated(user)),
+      (failure) => _emitIfNotClosed(AuthError(failure.message)),
+      (user) => _emitIfNotClosed(AuthAuthenticated(user)),
     );
   }
 
@@ -69,10 +73,11 @@ class AuthCubit extends Cubit<AuthState> {
     final result = await authRepository.resendVerificationCode(email);
 
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
+      (failure) => _emitIfNotClosed(AuthError(failure.message)),
       (_) {
-        emit(AuthVerificationRequired(email));
-        emit(const AuthSuccess('Verification code sent successfully'));
+        _emitIfNotClosed(AuthVerificationRequired(email));
+        _emitIfNotClosed(
+            const AuthSuccess('Verification code sent successfully'));
       },
     );
   }
@@ -89,8 +94,8 @@ class AuthCubit extends Cubit<AuthState> {
     );
 
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
-      (user) => emit(AuthAuthenticated(user)),
+      (failure) => _emitIfNotClosed(AuthError(failure.message)),
+      (user) => _emitIfNotClosed(AuthAuthenticated(user)),
     );
   }
 
@@ -100,8 +105,8 @@ class AuthCubit extends Cubit<AuthState> {
     final result = await authRepository.signInWithGoogle();
 
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
-      (user) => emit(AuthAuthenticated(user)),
+      (failure) => _emitIfNotClosed(AuthError(failure.message)),
+      (user) => _emitIfNotClosed(AuthAuthenticated(user)),
     );
   }
 
@@ -111,8 +116,8 @@ class AuthCubit extends Cubit<AuthState> {
     final result = await authRepository.signInWithApple();
 
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
-      (user) => emit(AuthAuthenticated(user)),
+      (failure) => _emitIfNotClosed(AuthError(failure.message)),
+      (user) => _emitIfNotClosed(AuthAuthenticated(user)),
     );
   }
 
@@ -122,8 +127,8 @@ class AuthCubit extends Cubit<AuthState> {
     final result = await authRepository.sendPasswordResetCode(email);
 
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
-      (_) => emit(AuthPasswordResetVerification(email)),
+      (failure) => _emitIfNotClosed(AuthError(failure.message)),
+      (_) => _emitIfNotClosed(AuthPasswordResetInProgress(email: email)),
     );
   }
 
@@ -139,8 +144,11 @@ class AuthCubit extends Cubit<AuthState> {
     );
 
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
-      (_) => emit(AuthPasswordResetCodeVerified(email: email, token: token)),
+      (failure) => _emitIfNotClosed(AuthError(failure.message)),
+      (_) => _emitIfNotClosed(AuthPasswordResetInProgress(
+        email: email,
+        token: token,
+      )),
     );
   }
 
@@ -158,10 +166,10 @@ class AuthCubit extends Cubit<AuthState> {
     );
 
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
+      (failure) => _emitIfNotClosed(AuthError(failure.message)),
       (_) {
-        emit(AuthUnauthenticated());
-        emit(const AuthSuccess('Password reset successfully'));
+        _emitIfNotClosed(AuthInitial());
+        _emitIfNotClosed(const AuthSuccess('Password reset successfully'));
       },
     );
   }
@@ -178,10 +186,12 @@ class AuthCubit extends Cubit<AuthState> {
     );
 
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
+      (failure) => _emitIfNotClosed(AuthError(failure.message)),
       (photoUrl) async {
         await refreshUser();
-        emit(const AuthSuccess('Profile photo uploaded successfully'));
+        _emitIfNotClosed(
+          const AuthSuccess('Profile photo uploaded successfully'),
+        );
       },
     );
   }
@@ -192,10 +202,12 @@ class AuthCubit extends Cubit<AuthState> {
     final result = await authRepository.deleteProfilePhoto(userId);
 
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
+      (failure) => _emitIfNotClosed(AuthError(failure.message)),
       (_) async {
         await refreshUser();
-        emit(const AuthSuccess('Profile photo deleted successfully'));
+        _emitIfNotClosed(
+          const AuthSuccess('Profile photo deleted successfully'),
+        );
       },
     );
   }
@@ -212,10 +224,12 @@ class AuthCubit extends Cubit<AuthState> {
     );
 
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
+      (failure) => _emitIfNotClosed(AuthError(failure.message)),
       (user) {
-        emit(AuthAuthenticated(user));
-        emit(const AuthSuccess('Profile updated successfully'));
+        _emitIfNotClosed(AuthAuthenticated(user));
+        _emitIfNotClosed(
+          const AuthSuccess('Profile updated successfully'),
+        );
       },
     );
   }
@@ -226,8 +240,8 @@ class AuthCubit extends Cubit<AuthState> {
     final result = await authRepository.signOut();
 
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
-      (_) => emit(AuthUnauthenticated()),
+      (failure) => _emitIfNotClosed(AuthError(failure.message)),
+      (_) => _emitIfNotClosed(AuthUnauthenticated()),
     );
   }
 
@@ -237,21 +251,28 @@ class AuthCubit extends Cubit<AuthState> {
     final result = await authRepository.deleteAccount();
 
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
-      (_) => emit(AuthUnauthenticated()),
+      (failure) => _emitIfNotClosed(AuthError(failure.message)),
+      (_) => _emitIfNotClosed(AuthUnauthenticated()),
     );
   }
 
   Future<void> refreshUser() async {
     final result = await authRepository.getCurrentUser();
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
+      (failure) => _emitIfNotClosed(AuthError(failure.message)),
       (user) {
         if (user != null) {
-          emit(AuthAuthenticated(user));
+          _emitIfNotClosed(AuthAuthenticated(user));
         }
       },
     );
+  }
+
+  /// Helper method to emit state only if the Cubit is not closed
+  void _emitIfNotClosed(AuthState state) {
+    if (!isClosed) {
+      emit(state);
+    }
   }
 
   @override

@@ -1,11 +1,14 @@
 import 'package:clothes_ecommerce_app/core/helper/spacing.dart';
+import 'package:clothes_ecommerce_app/core/helper/validators.dart';
 import 'package:clothes_ecommerce_app/core/theme/app_styles.dart';
+import 'package:clothes_ecommerce_app/core/utils/assets.dart';
 import 'package:clothes_ecommerce_app/core/widget/custom_button.dart';
 import 'package:clothes_ecommerce_app/core/widget/custom_text_field.dart';
 import 'package:clothes_ecommerce_app/core/widget/icon_back.dart';
 import 'package:clothes_ecommerce_app/feature/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EmailVerfViewBody extends StatefulWidget {
   final String email;
@@ -39,7 +42,15 @@ class _EmailVerfViewBodyState extends State<EmailVerfViewBody> {
             'Email Verification',
             style: AppStyles.font32BlackBold(context),
           ),
-          heightBox(32),
+          heightBox(30),
+          Center(
+            child: Image.asset(
+              Assets.imagesPngSendMail,
+              height: 200.h,
+              width: 200.w,
+            ),
+          ),
+          heightBox(20),
           Form(
             key: formKey,
             child: Column(
@@ -55,15 +66,7 @@ class _EmailVerfViewBodyState extends State<EmailVerfViewBody> {
                   controller: codeController,
                   hintText: 'Enter Code',
                   keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter verification code';
-                    }
-                    if (value.length != 6) {
-                      return 'Code must be 6 digits';
-                    }
-                    return null;
-                  },
+                  validator: AppValidator.validateCode,
                 ),
                 heightBox(24),
                 CustomButton(

@@ -53,6 +53,19 @@ class AuthPasswordResetCodeVerified extends AuthState {
   List<Object?> get props => [email, token];
 }
 
+class AuthPasswordResetInProgress extends AuthState {
+  final String email;
+  final String? token;
+
+  const AuthPasswordResetInProgress({
+    required this.email,
+    this.token,
+  });
+
+  @override
+  List<Object?> get props => [email, token];
+}
+
 class AuthError extends AuthState {
   final String message;
 

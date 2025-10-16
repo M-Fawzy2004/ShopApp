@@ -38,4 +38,15 @@ class AppValidator {
     }
     return null;
   }
+
+  // validate code
+  static String? validateCode(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter verification code';
+    }
+    if (value.length != 6) {
+      return 'Code must be 6 digits';
+    }
+    return null;
+  }
 }
