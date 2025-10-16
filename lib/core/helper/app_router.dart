@@ -3,6 +3,7 @@ import 'package:clothes_ecommerce_app/feature/auth/presentation/view/email_verf_
 import 'package:clothes_ecommerce_app/feature/auth/presentation/view/forget_password_view.dart';
 import 'package:clothes_ecommerce_app/feature/auth/presentation/view/login_view.dart';
 import 'package:clothes_ecommerce_app/feature/auth/presentation/view/register_view.dart';
+import 'package:clothes_ecommerce_app/feature/auth/presentation/view/reset_password_view.dart';
 import 'package:clothes_ecommerce_app/feature/main_home/presentation/view/main_view.dart';
 import 'package:clothes_ecommerce_app/feature/splash/presentation/view/splash_view.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ abstract class AppRouter {
   static const forgetPasswordView = '/forgetPasswordView';
   static const mainView = '/mainView';
   static const emailVerfView = '/emailVerfView';
+  static const resetPasswordView = '/resetPasswordView';
 
   static var router = GoRouter(
     routes: [
@@ -56,6 +58,22 @@ abstract class AppRouter {
         builder: (BuildContext context, GoRouterState state) {
           final data = state.extra as Map<String, dynamic>;
           return AppProviders.auth(child: EmailVerfView(data: data));
+        },
+      ),
+      GoRoute(
+        path: resetPasswordView,
+        builder: (BuildContext context, GoRouterState state) {
+          final data = state.extra as Map<String, dynamic>?;
+
+          final email = data?['email'] as String? ?? '';
+          final token = data?['token'] as String? ?? '';
+
+          return AppProviders.auth(
+            child: ResetPasswordView(
+              email: email,
+              token: token,
+            ),
+          );
         },
       ),
     ],

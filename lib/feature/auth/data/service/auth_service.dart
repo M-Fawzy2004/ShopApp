@@ -137,11 +137,21 @@ class AuthService {
     required String email,
     required String token,
   }) async {
-    await supabaseClient.auth.verifyOTP(
-      email: email,
-      token: token,
-      type: OtpType.recovery,
-    );
+    try {
+      await supabaseClient.auth.verifyOTP(
+        email: email,
+        token: token,
+        type: OtpType.recovery,
+      );
+
+      await supabaseClient.auth.signOut();
+
+      if (token.isEmpty || token.length != 6) {
+        throw Exception('Invalid verification code');
+      }
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<void> resetPassword({
@@ -149,11 +159,21 @@ class AuthService {
     required String token,
     required String newPassword,
   }) async {
-    await verifyPasswordResetCode(email: email, token: token);
+    final response = await supabaseClient.auth.verifyOTP(
+      email: email,
+      token: token,
+      type: OtpType.recovery,
+    );
+
+    if (response.session == null) {
+      throw Exception('Invalid or expired verification code');
+    }
 
     await supabaseClient.auth.updateUser(
       UserAttributes(password: newPassword),
     );
+
+    await supabaseClient.auth.signOut();
   }
 
   Future<String> uploadProfilePhoto({

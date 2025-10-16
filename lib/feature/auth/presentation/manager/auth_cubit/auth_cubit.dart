@@ -16,19 +16,21 @@ class AuthCubit extends Cubit<AuthState> {
 
   void initAuthListener() {
     authSubscription?.cancel();
-    authSubscription = authRepository.authStateChanges.listen((user) {
-      if (!isClosed) {
-        if (state is AuthPasswordResetInProgress) {
-          return;
-        }
+    authSubscription = authRepository.authStateChanges.listen(
+      (user) {
+        if (state is AuthPasswordResetInProgress) return;
 
         if (user != null) {
-          emit(AuthAuthenticated(user));
+          _emitIfNotClosed(AuthAuthenticated(user));
         } else {
-          emit(AuthUnauthenticated());
+          if (state is! AuthPasswordResetInProgress && state is! AuthLoading) {
+            _emitIfNotClosed(AuthUnauthenticated());
+          }
         }
-      }
-    });
+      },
+      onError: (error) => _emitIfNotClosed(AuthError(error.toString())),
+      cancelOnError: false,
+    );
   }
 
   Future<void> signUpWithEmail({
@@ -111,10 +113,12 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> signInWithApple() async {
+    if (isClosed) return;
     emit(AuthLoading());
 
     final result = await authRepository.signInWithApple();
 
+    if (isClosed) return;
     result.fold(
       (failure) => _emitIfNotClosed(AuthError(failure.message)),
       (user) => _emitIfNotClosed(AuthAuthenticated(user)),
