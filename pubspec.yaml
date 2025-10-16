@@ -43,6 +43,7 @@ dependencies:
   loading_animation_widget: ^1.3.0
   sign_in_with_apple: ^7.0.1
   supabase_flutter: ^2.10.3
+  iconly: ^1.0.1
 
 dev_dependencies:
   flutter_lints: ^5.0.0
