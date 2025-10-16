@@ -1,11 +1,18 @@
 import 'package:clothes_ecommerce_app/core/helper/spacing.dart';
 import 'package:clothes_ecommerce_app/core/theme/app_styles.dart';
 import 'package:clothes_ecommerce_app/core/widget/icon_back.dart';
-import 'package:clothes_ecommerce_app/feature/auth/presentation/view/widget/forget_password_form_bloc_consumer.dart';
+import 'package:clothes_ecommerce_app/feature/auth/presentation/view/widget/reset_form_bloc_consumer.dart';
 import 'package:flutter/material.dart';
 
-class ForgetPasswordViewBody extends StatelessWidget {
-  const ForgetPasswordViewBody({super.key});
+class ResetPasswordViewBody extends StatelessWidget {
+  const ResetPasswordViewBody({
+    super.key,
+    required this.email,
+    required this.token,
+  });
+
+  final String email;
+  final String token;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +25,7 @@ class ForgetPasswordViewBody extends StatelessWidget {
           const IconBack(),
           heightBox(20),
           Text(
-            'Forget Password',
+            'Reset Password',
             style: AppStyles.font32BlackBold(context),
           ),
           heightBox(10),
@@ -27,7 +34,10 @@ class ForgetPasswordViewBody extends StatelessWidget {
             style: AppStyles.font12GreyBold(context),
           ),
           heightBox(30),
-          const ForgetPasswordFormBlocConsumer(),
+          ResetPasswordFormBlocConsumer(
+            email: email,
+            token: token,
+          ),
         ],
       ),
     );
