@@ -1,3 +1,4 @@
+import 'package:clothes_ecommerce_app/core/di/app_providers.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/view/widget/home_view_body.dart';
 import 'package:flutter/material.dart';
 
@@ -6,8 +7,10 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: HomeViewBody(),
+    return AppProviders.getApi(
+      child: const Scaffold(
+        body: HomeViewBody(),
+      ),
     );
   }
 }

@@ -3,6 +3,13 @@ import 'package:clothes_ecommerce_app/feature/auth/data/repo/auth_repository_imp
 import 'package:clothes_ecommerce_app/feature/auth/data/service/auth_service.dart';
 import 'package:clothes_ecommerce_app/feature/auth/domain/repo/auth_repository.dart';
 import 'package:clothes_ecommerce_app/feature/auth/presentation/manager/auth_cubit/auth_cubit.dart';
+import 'package:clothes_ecommerce_app/feature/home/data/datasource/category_remote_data_source.dart';
+import 'package:clothes_ecommerce_app/feature/home/data/repo/category_repository_impl.dart';
+import 'package:clothes_ecommerce_app/feature/home/domain/datasource/category_remote_data_source.dart';
+import 'package:clothes_ecommerce_app/feature/home/domain/repo/category_repository.dart';
+import 'package:clothes_ecommerce_app/feature/home/domain/use_case/get_categories_use_case.dart';
+import 'package:clothes_ecommerce_app/feature/home/presentation/manager/category_cubit/category_cubit.dart';
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -15,11 +22,14 @@ Future<void> initDependencies() async {
     anonKey: AppConst.supabaseKey,
   );
 
-  // External dependencies
+  ///////////////////// External Dependencies /////////////////////
+  
+  // Supabase Client
   getIt.registerLazySingleton<SupabaseClient>(
     () => Supabase.instance.client,
   );
 
+  // Google Sign In
   getIt.registerLazySingleton<GoogleSignIn>(
     () => GoogleSignIn(
       scopes: [
@@ -31,7 +41,63 @@ Future<void> initDependencies() async {
     ),
   );
 
-  // Services
+  // Dio Instance
+  getIt.registerLazySingleton<Dio>(
+    () => Dio(
+      BaseOptions(
+        connectTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 30),
+        sendTimeout: const Duration(seconds: 30),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      ),
+    )..interceptors.addAll([
+        LogInterceptor(
+          requestBody: true,
+          responseBody: true,
+          requestHeader: true,
+          responseHeader: false,
+          error: true,
+          logPrint: (obj) {
+            // You can use logger package here
+          },
+        ),
+      ]),
+  );
+
+  ///////////////////// Data Sources /////////////////////
+  
+  // Category Remote Data Source
+  getIt.registerLazySingleton<CategoryRemoteDataSource>(
+    () => CategoryRemoteDataSourceImpl(dio: getIt()),
+  );
+
+  ///////////////////// Repositories /////////////////////
+  
+  // Auth Repository
+  getIt.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryImpl(
+      authService: getIt(),
+    ),
+  );
+
+  // Category Repository
+  getIt.registerLazySingleton<CategoryRepository>(
+    () => CategoryRepositoryImpl(remoteDataSource: getIt()),
+  );
+
+  ///////////////////// Use Cases /////////////////////
+  
+  // Get Categories Use Case
+  getIt.registerLazySingleton<GetCategoriesUseCase>(
+    () => GetCategoriesUseCase(repository: getIt()),
+  );
+
+  ///////////////////// Services /////////////////////
+  
+  // Auth Service
   getIt.registerLazySingleton<AuthService>(
     () => AuthService(
       supabaseClient: getIt(),
@@ -39,18 +105,18 @@ Future<void> initDependencies() async {
     ),
   );
 
-  // Repositories
-  getIt.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(
-      authService: getIt(),
-    ),
-  );
-
-  // Cubits
+  ///////////////////// Cubits /////////////////////
+  
+  // Auth Cubit
   getIt.registerFactory<AuthCubit>(
     () => AuthCubit(
       authRepository: getIt(),
     ),
+  );
+
+  // Category Cubit
+  getIt.registerFactory<CategoryCubit>(
+    () => CategoryCubit(getCategoriesUseCase: getIt()),
   );
 }
 
@@ -58,4 +124,31 @@ Future<void> initDependencies() async {
 Future<void> resetDependencies() async {
   await getIt.reset();
   await initDependencies();
+}
+
+// Optional: Create Dio with custom configuration for specific needs
+Dio createCustomDio({
+  String? baseUrl,
+  Map<String, dynamic>? headers,
+  Duration? connectTimeout,
+}) {
+  return Dio(
+    BaseOptions(
+      baseUrl: baseUrl ?? '',
+      connectTimeout: connectTimeout ?? const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 30),
+      sendTimeout: const Duration(seconds: 30),
+      headers: headers ??
+          {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+    ),
+  )..interceptors.add(
+      LogInterceptor(
+        requestBody: true,
+        responseBody: true,
+        error: true,
+      ),
+    );
 }
