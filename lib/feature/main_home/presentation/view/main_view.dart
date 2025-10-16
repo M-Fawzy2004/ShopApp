@@ -20,7 +20,7 @@ class _MainViewState extends State<MainView> {
 
   List<Widget> get getScreens => [
         const HomeView(),
-        const Center(child: Text('Notfication')),
+        const Center(child: Text('Category')),
         const Center(child: Text('Cart')),
         const Center(child: Text('Profile')),
       ];

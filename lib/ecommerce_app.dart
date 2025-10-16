@@ -17,7 +17,7 @@ class EcommerceApp extends StatelessWidget {
         routerConfig: AppRouter.router,
         theme: ThemeData(
           fontFamily: 'fontApp',
-          scaffoldBackgroundColor: AppColors.white,
+          scaffoldBackgroundColor: AppColors.lightBlue,
         ),
       ),
     );

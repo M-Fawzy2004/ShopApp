@@ -1,7 +1,7 @@
 import 'package:clothes_ecommerce_app/core/theme/app_colors.dart';
-import 'package:clothes_ecommerce_app/core/utils/assets.dart';
 import 'package:clothes_ecommerce_app/feature/main_home/presentation/view/widget/bottom_nav_item.dart';
 import 'package:flutter/material.dart';
+import 'package:iconly/iconly.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
@@ -17,7 +17,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.lightGrey,
+        color: AppColors.lightBlue,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -33,26 +33,26 @@ class CustomBottomNavigationBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               BottomNavItem(
-                icon: Assets.imagesIconHomeIcon,
-                activeIcon: Assets.imagesIconActiveHomeIcon,
+                icon: IconlyLight.home,
+                activeIcon: IconlyBold.home,
                 isActive: currentIndex == 0,
                 onTap: () => onTap(0),
               ),
               BottomNavItem(
-                icon: Assets.imagesIconNotificationIcon,
-                activeIcon: Assets.imagesIconActiveNotificationIcon,
+                icon: IconlyLight.category,
+                activeIcon: IconlyBold.category,
                 isActive: currentIndex == 1,
                 onTap: () => onTap(1),
               ),
               BottomNavItem(
-                icon: Assets.imagesIconSaveIcon,
-                activeIcon: Assets.imagesIconActiveSaveIcon,
+                icon: IconlyLight.bag,
+                activeIcon: IconlyBold.bag,
                 isActive: currentIndex == 2,
                 onTap: () => onTap(2),
               ),
               BottomNavItem(
-                icon: Assets.imagesIconPersonIcon,
-                activeIcon: Assets.imagesIconActivePersonIcon,
+                icon: IconlyLight.profile,
+                activeIcon: IconlyBold.profile,
                 isActive: currentIndex == 3,
                 onTap: () => onTap(3),
               ),
