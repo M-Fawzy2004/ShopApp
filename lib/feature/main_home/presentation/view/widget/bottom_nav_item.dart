@@ -22,7 +22,7 @@ class BottomNavItem extends StatelessWidget {
       child: Icon(
         isActive ? activeIcon ?? icon : icon,
         color: isActive ? AppColors.primaryColor : AppColors.darkGrey,
-        size: isActive ? 28.0 : 24.0,
+        size: isActive ? 30.0 : 27.0,
       ),
     );
   }

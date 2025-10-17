@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CategoriesHeaderRow extends StatelessWidget {
-  const CategoriesHeaderRow({super.key});
+  const CategoriesHeaderRow({super.key, this.onNavigateToSubjects});
+
+    final VoidCallback? onNavigateToSubjects;
+
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +20,13 @@ class CategoriesHeaderRow extends StatelessWidget {
             style: AppStyles.font16BlackBold(context),
           ),
           const Spacer(),
-          Text(
-            'See all',
-            style: AppStyles.font14BlackMedium(context).copyWith(
-              color: AppColors.primaryColor,
+          GestureDetector(
+            onTap:  onNavigateToSubjects,
+            child: Text(
+              'See all',
+              style: AppStyles.font14BlackMedium(context).copyWith(
+                color: AppColors.primaryColor,
+              ),
             ),
           ),
         ],

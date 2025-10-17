@@ -1,3 +1,4 @@
+import 'package:clothes_ecommerce_app/feature/categories/presentation/view/categories_view.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/view/home_view.dart';
 import 'package:clothes_ecommerce_app/feature/main_home/presentation/view/widget/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +20,8 @@ class _MainViewState extends State<MainView> {
   }
 
   List<Widget> get getScreens => [
-        const HomeView(),
-        const Center(child: Text('Category')),
+        HomeView(onNavigateToSubjects: () => changeIndex(1)),
+        const CategoriesView(),
         const Center(child: Text('Cart')),
         const Center(child: Text('Profile')),
       ];

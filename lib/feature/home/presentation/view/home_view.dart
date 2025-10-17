@@ -3,13 +3,15 @@ import 'package:clothes_ecommerce_app/feature/home/presentation/view/widget/home
 import 'package:flutter/material.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+  const HomeView({super.key, this.onNavigateToSubjects});
+
+  final VoidCallback? onNavigateToSubjects;
 
   @override
   Widget build(BuildContext context) {
     return AppProviders.getApi(
-      child: const Scaffold(
-        body: HomeViewBody(),
+      child:  Scaffold(
+        body: HomeViewBody(onNavigateToSubjects : onNavigateToSubjects,),
       ),
     );
   }
