@@ -1,6 +1,7 @@
 import 'package:clothes_ecommerce_app/core/theme/app_colors.dart';
 import 'package:clothes_ecommerce_app/feature/main_home/presentation/view/widget/bottom_nav_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconly/iconly.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -16,6 +17,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 60.h,
       decoration: BoxDecoration(
         color: AppColors.lightBlue,
         boxShadow: [

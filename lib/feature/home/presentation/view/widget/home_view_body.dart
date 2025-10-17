@@ -4,6 +4,7 @@ import 'package:clothes_ecommerce_app/feature/home/presentation/view/widget/cate
 import 'package:clothes_ecommerce_app/feature/home/presentation/view/widget/categories_list_bloc_consumer.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/view/widget/home_app_bar_section.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/view/widget/custom_search_field.dart';
+import 'package:clothes_ecommerce_app/feature/home/presentation/view/widget/product_sections_column.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -41,6 +42,9 @@ class HomeViewBody extends StatelessWidget {
         ),
         const SliverToBoxAdapter(
           child: CategoriesListBlocConsumer(),
+        ),
+        const SliverToBoxAdapter(
+          child: ProductSectionsColumn(),
         ),
       ],
     );
