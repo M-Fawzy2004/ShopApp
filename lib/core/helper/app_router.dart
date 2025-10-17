@@ -4,6 +4,7 @@ import 'package:clothes_ecommerce_app/feature/auth/presentation/view/forget_pass
 import 'package:clothes_ecommerce_app/feature/auth/presentation/view/login_view.dart';
 import 'package:clothes_ecommerce_app/feature/auth/presentation/view/register_view.dart';
 import 'package:clothes_ecommerce_app/feature/auth/presentation/view/reset_password_view.dart';
+import 'package:clothes_ecommerce_app/feature/categories/presentation/view/categories_view.dart';
 import 'package:clothes_ecommerce_app/feature/main_home/presentation/view/main_view.dart';
 import 'package:clothes_ecommerce_app/feature/splash/presentation/view/splash_view.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ abstract class AppRouter {
   static const mainView = '/mainView';
   static const emailVerfView = '/emailVerfView';
   static const resetPasswordView = '/resetPasswordView';
-
+  static const categoriesView = '/categoriesView';
 
   static var router = GoRouter(
     routes: [
@@ -51,7 +52,7 @@ abstract class AppRouter {
       GoRoute(
         path: mainView,
         builder: (BuildContext context, GoRouterState state) {
-          return  const MainView();
+          return const MainView();
         },
       ),
       GoRoute(
@@ -74,6 +75,14 @@ abstract class AppRouter {
               email: email,
               token: token,
             ),
+          );
+        },
+      ),
+      GoRoute(
+        path: categoriesView,
+        builder: (BuildContext context, GoRouterState state) {
+          return AppProviders.getApiCategoriesView(
+            child: const CategoriesView(),
           );
         },
       ),

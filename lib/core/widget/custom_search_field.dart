@@ -7,9 +7,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconly/iconly.dart';
 
 class CustomSearchField extends StatelessWidget {
-  const CustomSearchField({super.key, this.onChanged, this.onTap});
+  const CustomSearchField({
+    super.key,
+    this.onChanged,
+    this.onTap,
+    this.hintText,
+  });
   final Function(String)? onChanged;
   final VoidCallback? onTap;
+  final String? hintText;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +38,7 @@ class CustomSearchField extends StatelessWidget {
             onChanged: onChanged,
             style: AppStyles.font16BlackBold(context),
             decoration: InputDecoration(
-              hintText: 'Search for products...',
+              hintText: hintText,
               hintStyle: TextStyle(
                 color: Colors.black54,
                 fontSize: 14.sp,

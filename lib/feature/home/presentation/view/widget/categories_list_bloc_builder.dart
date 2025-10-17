@@ -5,8 +5,8 @@ import 'package:clothes_ecommerce_app/feature/home/presentation/view/widget/cate
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CategoriesListBlocConsumer extends StatelessWidget {
-  const CategoriesListBlocConsumer({super.key});
+class CategoriesListBlocBuilder extends StatelessWidget {
+  const CategoriesListBlocBuilder({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class CategoriesListBlocConsumer extends StatelessWidget {
           return const CategoriesListViewLoading();
         } else if (state is CategoryLoaded) {
           return CategoriesListView(categories: state.categories);
-        } 
+        }
         return const SizedBox.shrink();
       },
     );

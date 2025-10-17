@@ -31,4 +31,11 @@ class AppProviders {
       child: child,
     );
   }
+
+  static Widget getApiCategoriesView({required Widget child}) {
+    return BlocProvider<CategoryCubit>(
+      create: (_) => getIt<CategoryCubit>()..getCategories(),
+      child: child,
+    );
+  }
 }

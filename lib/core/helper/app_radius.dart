@@ -4,5 +4,5 @@ class AppRadius {
   static double small = 4.r;
   static double medium = 8.r;
   static double regular = 12.r;
-  static double large = 30.r;
+  static double large = 25.r;
 }
