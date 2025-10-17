@@ -51,7 +51,7 @@ abstract class AppRouter {
       GoRoute(
         path: mainView,
         builder: (BuildContext context, GoRouterState state) {
-          return  MainView();
+          return  const MainView();
         },
       ),
       GoRoute(

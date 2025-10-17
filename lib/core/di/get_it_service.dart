@@ -3,12 +3,18 @@ import 'package:clothes_ecommerce_app/feature/auth/data/repo/auth_repository_imp
 import 'package:clothes_ecommerce_app/feature/auth/data/service/auth_service.dart';
 import 'package:clothes_ecommerce_app/feature/auth/domain/repo/auth_repository.dart';
 import 'package:clothes_ecommerce_app/feature/auth/presentation/manager/auth_cubit/auth_cubit.dart';
-import 'package:clothes_ecommerce_app/feature/home/data/datasource/category_remote_data_source.dart';
+import 'package:clothes_ecommerce_app/feature/home/data/datasource/category_remote_data_source_impl.dart';
+import 'package:clothes_ecommerce_app/feature/home/data/datasource/product_remote_data_source_impl.dart';
 import 'package:clothes_ecommerce_app/feature/home/data/repo/category_repository_impl.dart';
+import 'package:clothes_ecommerce_app/feature/home/data/repo/product_repository_impl.dart';
 import 'package:clothes_ecommerce_app/feature/home/domain/datasource/category_remote_data_source.dart';
+import 'package:clothes_ecommerce_app/feature/home/domain/datasource/product_remote_data_source.dart';
 import 'package:clothes_ecommerce_app/feature/home/domain/repo/category_repository.dart';
+import 'package:clothes_ecommerce_app/feature/home/domain/repo/product_repository.dart';
 import 'package:clothes_ecommerce_app/feature/home/domain/use_case/get_categories_use_case.dart';
+import 'package:clothes_ecommerce_app/feature/home/domain/use_case/get_products_by_category_use_case.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/manager/category_cubit/category_cubit.dart';
+import 'package:clothes_ecommerce_app/feature/home/presentation/manager/product_cubit/product_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -23,7 +29,7 @@ Future<void> initDependencies() async {
   );
 
   ///////////////////// External Dependencies /////////////////////
-  
+
   // Supabase Client
   getIt.registerLazySingleton<SupabaseClient>(
     () => Supabase.instance.client,
@@ -68,14 +74,19 @@ Future<void> initDependencies() async {
   );
 
   ///////////////////// Data Sources /////////////////////
-  
+
   // Category Remote Data Source
   getIt.registerLazySingleton<CategoryRemoteDataSource>(
     () => CategoryRemoteDataSourceImpl(dio: getIt()),
   );
 
+  // Product Remote Data Source
+  getIt.registerLazySingleton<ProductRemoteDataSource>(
+    () => ProductRemoteDataSourceImpl(dio: getIt()),
+  );
+
   ///////////////////// Repositories /////////////////////
-  
+
   // Auth Repository
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
@@ -88,15 +99,25 @@ Future<void> initDependencies() async {
     () => CategoryRepositoryImpl(remoteDataSource: getIt()),
   );
 
+  // Product Repository
+  getIt.registerLazySingleton<ProductRepository>(
+    () => ProductRepositoryImpl(remoteDataSource: getIt()),
+  );
+
   ///////////////////// Use Cases /////////////////////
-  
+
   // Get Categories Use Case
   getIt.registerLazySingleton<GetCategoriesUseCase>(
     () => GetCategoriesUseCase(repository: getIt()),
   );
 
+  // Get Products By Category Use Case
+  getIt.registerLazySingleton<GetProductsByCategoryUseCase>(
+    () => GetProductsByCategoryUseCase(repository: getIt()),
+  );
+
   ///////////////////// Services /////////////////////
-  
+
   // Auth Service
   getIt.registerLazySingleton<AuthService>(
     () => AuthService(
@@ -106,7 +127,7 @@ Future<void> initDependencies() async {
   );
 
   ///////////////////// Cubits /////////////////////
-  
+
   // Auth Cubit
   getIt.registerFactory<AuthCubit>(
     () => AuthCubit(
@@ -117,6 +138,11 @@ Future<void> initDependencies() async {
   // Category Cubit
   getIt.registerFactory<CategoryCubit>(
     () => CategoryCubit(getCategoriesUseCase: getIt()),
+  );
+
+  // Product Cubit
+  getIt.registerFactory<ProductCubit>(
+    () => ProductCubit(getProductsByCategoryUseCase: getIt()),
   );
 }
 

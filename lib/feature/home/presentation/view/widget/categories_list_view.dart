@@ -1,3 +1,4 @@
+import 'package:clothes_ecommerce_app/core/helper/spacing.dart';
 import 'package:clothes_ecommerce_app/feature/home/domain/entities/category_entity.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/view/widget/categories_item_card.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +20,8 @@ class CategoriesListView extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
         padding: EdgeInsets.symmetric(horizontal: 16.w),
-        itemCount: categories.length,
-        separatorBuilder: (context, index) => SizedBox(width: 16.w),
+        itemCount: categories.length > 7 ? 7 : categories.length,
+        separatorBuilder: (context, index) => widthBox(15),
         itemBuilder: (context, index) {
           return CategoriesItemCard(category: categories[index]);
         },
