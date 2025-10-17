@@ -1,6 +1,5 @@
 import 'package:clothes_ecommerce_app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BottomNavItem extends StatelessWidget {
   final IconData icon;
@@ -23,7 +22,7 @@ class BottomNavItem extends StatelessWidget {
       child: Icon(
         isActive ? activeIcon ?? icon : icon,
         color: isActive ? AppColors.primaryColor : AppColors.darkGrey,
-        size: isActive ? 27.sp : 24.sp,
+        size: isActive ? 28.0 : 24.0,
       ),
     );
   }

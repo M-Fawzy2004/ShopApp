@@ -18,6 +18,9 @@ class AppProviders {
   static Widget getApi({required Widget child}) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<AuthCubit>(
+          create: (_) => getIt<AuthCubit>(),
+        ),
         BlocProvider<CategoryCubit>(
           create: (_) => getIt<CategoryCubit>()..getCategories(),
         ),
