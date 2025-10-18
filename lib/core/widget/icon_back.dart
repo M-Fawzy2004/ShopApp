@@ -17,7 +17,7 @@ class IconBack extends StatelessWidget {
         width: 45.w,
         height: 45.w,
         decoration: const BoxDecoration(
-          color: AppColors.lightGrey,
+          color: AppColors.white,
           shape: BoxShape.circle,
         ),
         child: Center(
