@@ -5,7 +5,9 @@ import 'package:go_router/go_router.dart';
 import '../theme/app_colors.dart';
 
 class IconBack extends StatelessWidget {
-  const IconBack({super.key});
+  const IconBack({super.key, this.icon});
+
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +24,9 @@ class IconBack extends StatelessWidget {
         ),
         child: Center(
           child: Icon(
-            Icons.arrow_back_ios_new,
+            icon ?? Icons.arrow_back_ios_new,
             color: AppColors.black,
-            size: 16.sp,
+            size: 20.sp,
           ),
         ),
       ),

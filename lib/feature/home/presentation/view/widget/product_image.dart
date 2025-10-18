@@ -6,20 +6,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductImage extends StatelessWidget {
-  const ProductImage({super.key, required this.product});
+  const ProductImage({super.key, required this.product, this.fit, this.height});
 
   final ProductEntity product;
+  final BoxFit? fit;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: product.thumbnail,
-      height: 140.h,
+      height: height ?? 140.h,
       width: double.infinity,
-      fit: BoxFit.cover,
+      fit: fit ?? BoxFit.cover,
       placeholder: (context, url) => Container(
         height: 140.h,
-        width: double.infinity,
         decoration: BoxDecoration(
           color: Colors.grey[200],
           borderRadius: BorderRadius.circular(AppRadius.medium),
