@@ -4,28 +4,38 @@ import 'package:go_router/go_router.dart';
 
 import '../theme/app_colors.dart';
 
-class IconBack extends StatelessWidget {
-  const IconBack({super.key, this.icon});
+class CircleIcon extends StatelessWidget {
+  const CircleIcon({
+    super.key,
+    this.icon,
+    this.onTap,
+    this.color,
+    this.colorIcon,
+  });
 
   final IconData? icon;
+  final void Function()? onTap;
+  final Color? color;
+  final Color? colorIcon;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        context.pop();
-      },
+      onTap: onTap ??
+          () {
+            context.pop();
+          },
       child: Container(
         width: 45.w,
         height: 45.w,
-        decoration: const BoxDecoration(
-          color: AppColors.white,
+        decoration: BoxDecoration(
+          color: color ?? AppColors.white,
           shape: BoxShape.circle,
         ),
         child: Center(
           child: Icon(
             icon ?? Icons.arrow_back_ios_new,
-            color: AppColors.black,
+            color: colorIcon ?? AppColors.black,
             size: 20.sp,
           ),
         ),

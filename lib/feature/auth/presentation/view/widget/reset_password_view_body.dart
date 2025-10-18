@@ -1,6 +1,6 @@
 import 'package:clothes_ecommerce_app/core/helper/spacing.dart';
 import 'package:clothes_ecommerce_app/core/theme/app_styles.dart';
-import 'package:clothes_ecommerce_app/core/widget/icon_back.dart';
+import 'package:clothes_ecommerce_app/core/widget/circle_icon.dart';
 import 'package:clothes_ecommerce_app/feature/auth/presentation/view/widget/reset_form_bloc_consumer.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +22,7 @@ class ResetPasswordViewBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           heightBox(13),
-          const IconBack(),
+          const CircleIcon(),
           heightBox(20),
           Text(
             'Reset Password',

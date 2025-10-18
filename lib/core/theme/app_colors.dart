@@ -17,4 +17,6 @@ class AppColors {
   static const Color lightBlue = Color(0xFFF5F7FA);
   // error
   static const Color error = Colors.red;
+  // dark blue
+  static const Color darkBlue = Color.fromARGB(255, 232, 232, 232);
 }

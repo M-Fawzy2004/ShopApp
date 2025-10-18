@@ -4,7 +4,7 @@ import 'package:clothes_ecommerce_app/core/theme/app_styles.dart';
 import 'package:clothes_ecommerce_app/core/utils/assets.dart';
 import 'package:clothes_ecommerce_app/core/widget/custom_button.dart';
 import 'package:clothes_ecommerce_app/core/widget/custom_text_field.dart';
-import 'package:clothes_ecommerce_app/core/widget/icon_back.dart';
+import 'package:clothes_ecommerce_app/core/widget/circle_icon.dart';
 import 'package:clothes_ecommerce_app/feature/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +36,7 @@ class _EmailVerfViewBodyState extends State<EmailVerfViewBody> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           heightBox(13),
-          const IconBack(),
+          const CircleIcon(),
           heightBox(20),
           Text(
             'Email Verification',
