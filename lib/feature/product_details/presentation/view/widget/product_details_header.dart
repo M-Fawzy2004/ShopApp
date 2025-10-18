@@ -1,4 +1,4 @@
-import 'package:clothes_ecommerce_app/core/widget/icon_back.dart';
+import 'package:clothes_ecommerce_app/core/widget/circle_icon.dart';
 import 'package:clothes_ecommerce_app/feature/home/domain/entities/product_entity.dart';
 import 'package:clothes_ecommerce_app/feature/product_details/presentation/view/widget/product_images_header.dart';
 import 'package:clothes_ecommerce_app/feature/product_details/presentation/view/widget/product_title_card.dart';
@@ -20,13 +20,14 @@ class ProductDetailsHeader extends StatelessWidget {
         Positioned(
           top: 40.h,
           left: 16.w,
-          child: const IconBack(),
+          child: const CircleIcon(),
         ),
         Positioned(
           top: 40.h,
           right: 16.w,
-          child: const IconBack(
+          child: CircleIcon(
             icon: IconlyLight.heart,
+            onTap: () {},
           ),
         ),
         Positioned(
