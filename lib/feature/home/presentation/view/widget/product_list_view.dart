@@ -45,8 +45,8 @@ class ProductSectionListView extends StatelessWidget {
           }
           return Padding(
             padding: EdgeInsets.only(
-              left: index == 0 ? 15.w : 0,
-              right: 15.w,
+              left: index == 0 ? 16.w : 0,
+              right: 16.w,
             ),
             child: ProductCard(product: products[index]),
           );

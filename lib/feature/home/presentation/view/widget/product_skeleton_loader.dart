@@ -10,9 +10,9 @@ class ProductSkeletonLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 170.w,
-      height: 260.h,
-      margin: EdgeInsets.only(right: 12.w),
+      width: 200.w,
+      height: 300.h,
+      margin: EdgeInsets.only(left: 16.w),
       padding: EdgeInsets.all(10.w),
       decoration: BoxDecoration(
         color: AppColors.white,
@@ -22,7 +22,7 @@ class ProductSkeletonLoader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 140.h,
+            height: 170.h,
             width: double.infinity,
             decoration: BoxDecoration(
               color: AppColors.lightBlue.withOpacity(0.25),

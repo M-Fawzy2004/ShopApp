@@ -45,9 +45,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         hintText: widget.hintText,
         hintStyle: AppStyles.font16greyBold(context),
         filled: true,
-        fillColor: widget.enabled
-            ? AppColors.lightGrey
-            : AppColors.lightGrey.withOpacity(0.5),
+        fillColor: widget.enabled ? AppColors.white : AppColors.white,
         prefixIcon: widget.prefixIcon,
         suffixIcon: widget.isPassword
             ? IconButton(

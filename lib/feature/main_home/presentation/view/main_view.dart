@@ -1,6 +1,7 @@
 import 'package:clothes_ecommerce_app/feature/categories/presentation/view/categories_view.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/view/home_view.dart';
 import 'package:clothes_ecommerce_app/feature/main_home/presentation/view/widget/custom_bottom_navigation_bar.dart';
+import 'package:clothes_ecommerce_app/feature/profile/presentation/view/profile_view.dart';
 import 'package:flutter/material.dart';
 
 class MainView extends StatefulWidget {
@@ -23,7 +24,7 @@ class _MainViewState extends State<MainView> {
         HomeView(onNavigateToSubjects: () => changeIndex(1)),
         const CategoriesView(),
         const Center(child: Text('Cart')),
-        const Center(child: Text('Profile')),
+        const ProfileView(),
       ];
 
   @override

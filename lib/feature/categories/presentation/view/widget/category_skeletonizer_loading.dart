@@ -15,14 +15,14 @@ class CategorySkeletonizerLoading extends StatefulWidget {
 class _CategorySkeletonizerLoadingState
     extends State<CategorySkeletonizerLoading> {
   List<CategoryEntity> getDummay = List.generate(
-  8, 
-  (index) => CategoryEntity(
-    slug: 'Loading $index',
-    name: 'Loading Category',
-    url: 'https://via.placeholder.com/150',
-    imageUrl: 'https://via.placeholder.com/150',
-  ),
-);
+    8,
+    (index) => CategoryEntity(
+      slug: 'Loading $index',
+      name: 'Loading Category',
+      url: 'https://picsum.photos/200',
+      imageUrl: 'https://picsum.photos/200',
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
