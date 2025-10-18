@@ -1,7 +1,9 @@
+import 'package:clothes_ecommerce_app/core/helper/extension.dart';
 import 'package:clothes_ecommerce_app/core/helper/spacing.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/manager/product_cubit/product_state.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/view/widget/product_card.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/view/widget/product_skeleton_loader.dart';
+import 'package:clothes_ecommerce_app/feature/product_details/presentation/view/product_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -48,7 +50,14 @@ class ProductSectionListView extends StatelessWidget {
               left: index == 0 ? 16.w : 0,
               right: 16.w,
             ),
-            child: ProductCard(product: products[index]),
+            child: GestureDetector(
+              onTap: () {
+                context.navigateWithBottomSlideTransition(
+                  ProductDetailsView(product: products[index]),
+                );
+              },
+              child: ProductCard(product: products[index]),
+            ),
           );
         },
       );

@@ -37,4 +37,39 @@ extension Navigation on BuildContext {
       ),
     );
   }
+
+  void navigateWithBottomSlideTransition(Widget page) {
+    Navigator.of(this).push(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => page,
+        transitionDuration: const Duration(milliseconds: 600),
+        reverseTransitionDuration: const Duration(milliseconds: 400),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          final begin = const Offset(0.0, 1.0);
+          const end = Offset.zero;
+          const curve = Curves.easeOutCubic;
+          const reverseCurve = Curves.easeInCubic;
+
+          var tween = Tween(
+            begin: begin,
+            end: end,
+          ).chain(CurveTween(curve: curve));
+
+          var reverseTween = Tween(
+            begin: begin,
+            end: end,
+          ).chain(CurveTween(curve: reverseCurve));
+
+          return SlideTransition(
+            position: animation.drive(
+              secondaryAnimation.status == AnimationStatus.forward
+                  ? reverseTween
+                  : tween,
+            ),
+            child: child,
+          );
+        },
+      ),
+    );
+  }
 }
