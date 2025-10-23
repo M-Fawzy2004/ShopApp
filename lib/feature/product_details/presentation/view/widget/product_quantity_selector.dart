@@ -11,10 +11,17 @@ class ProductQuantitySelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       decoration: BoxDecoration(
-        color: AppColors.darkBlue,
+        color: AppColors.lightBlue,
         borderRadius: BorderRadius.circular(35.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         children: [
