@@ -18,12 +18,16 @@ class Product extends HiveObject {
   @HiveField(4)
   int quantity;
 
+  @HiveField(5)
+  bool isFavorite;
+
   Product({
     required this.id,
     required this.name,
     required this.price,
     required this.image,
     this.quantity = 1,
+    this.isFavorite = false,
   });
 
   double get totalPrice => price * quantity;
@@ -34,6 +38,7 @@ class Product extends HiveObject {
     double? price,
     String? image,
     int? quantity,
+    bool? isFavorite,
   }) {
     return Product(
       id: id ?? this.id,
@@ -41,6 +46,7 @@ class Product extends HiveObject {
       price: price ?? this.price,
       image: image ?? this.image,
       quantity: quantity ?? this.quantity,
+      isFavorite: isFavorite ?? this.isFavorite,
     );
   }
 }

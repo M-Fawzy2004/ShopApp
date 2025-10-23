@@ -24,12 +24,12 @@ class _CartViewBodyState extends State<CartViewBody> {
   Widget build(BuildContext context) {
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
-        if (state is CartLoading) {
+        if (state is CartLoading && selectedTabIndex == 0) {
           return const Center(
             child: CustomLoadingWidget(),
           );
         }
-        if (state is CartError) {
+        if (state is CartError && selectedTabIndex == 0) {
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -50,29 +50,28 @@ class _CartViewBodyState extends State<CartViewBody> {
             ),
           );
         }
-        if (state is CartLoaded) {
-          return CustomScrollView(
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-              CartAppBar(
-                selectedIndex: selectedTabIndex,
-                onTabChanged: (index) {
-                  setState(() {
-                    selectedTabIndex = index;
-                  });
-                },
-              ),
-              SliverToBoxAdapter(child: heightBox(20)),
-              // Show content based on selected tab
-              if (selectedTabIndex == 0)
-                CartContentWidget(state: state)
-              else
-                const FavouritesContentWidget(),
-            ],
-          );
-        }
 
-        return const SizedBox.shrink();
+        return CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            CartAppBar(
+              selectedIndex: selectedTabIndex,
+              onTabChanged: (index) {
+                setState(() {
+                  selectedTabIndex = index;
+                });
+              },
+            ),
+            SliverToBoxAdapter(child: heightBox(20)),
+            // Show content based on selected tab
+            if (selectedTabIndex == 0)
+              state is CartLoaded
+                  ? CartContentWidget(state: state)
+                  : const SliverToBoxAdapter(child: SizedBox.shrink())
+            else
+              const FavouritesContentWidget(),
+          ],
+        );
       },
     );
   }

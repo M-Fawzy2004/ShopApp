@@ -16,7 +16,7 @@ class SplashViewBlocConsumer extends StatelessWidget {
         if (state is SplashComplete) {
           final user = Supabase.instance.client.auth.currentUser;
           if (user != null) {
-            context.go(AppRouter.mainView);
+            context.go(AppRouter.mainView );
           } else {
             context.go(AppRouter.loginView);
           }

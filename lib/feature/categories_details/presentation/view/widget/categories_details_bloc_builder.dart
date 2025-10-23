@@ -1,3 +1,4 @@
+import 'package:clothes_ecommerce_app/core/helper/custom_loading_widget.dart';
 import 'package:clothes_ecommerce_app/core/helper/spacing.dart';
 import 'package:clothes_ecommerce_app/feature/categories_details/presentation/view/widget/categorey_product_card.dart';
 import 'package:clothes_ecommerce_app/feature/categories_details/presentation/view/widget/categories_product_skeleton_loader.dart';
@@ -91,10 +92,14 @@ class _CategoriesDetailsBlocBuilderState
                   products.length + (state is ProductLoadingMore ? 1 : 0),
               itemBuilder: (context, index) {
                 if (index == products.length) {
-                  return CategoriesProductSkeletonLoader(
-                    category: widget.category,
-                    itemCount: 10,
-                  );
+                  if (index == products.length) {
+                    return const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Center(
+                        child: CustomLoadingWidget(),
+                      ),
+                    );
+                  }
                 }
 
                 return CategoreyProductCard(
