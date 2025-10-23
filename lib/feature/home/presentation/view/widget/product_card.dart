@@ -63,10 +63,9 @@ class ProductCard extends StatelessWidget {
           heightBox(5),
           RatingAndPriceBadge(product: product),
           const Spacer(),
-          PriceAndAddButtonRow(finalPrice: finalPrice),
+          PriceAndAddButtonRow(finalPrice: finalPrice, product: product),
         ],
       ),
     );
   }
 }
-

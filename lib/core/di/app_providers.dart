@@ -1,5 +1,6 @@
 import 'package:clothes_ecommerce_app/core/di/get_it_service.dart';
 import 'package:clothes_ecommerce_app/feature/auth/presentation/manager/auth_cubit/auth_cubit.dart';
+import 'package:clothes_ecommerce_app/feature/cart/presentation/manager/cart_cubit/cart_cubit.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/manager/category_cubit/category_cubit.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/manager/product_cubit/product_cubit.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/manager/search_cubit/search_cubit.dart';
@@ -31,6 +32,9 @@ class AppProviders {
         BlocProvider<SearchCubit>(
           create: (_) => getIt<SearchCubit>(),
         ),
+        BlocProvider<CartCubit>(
+          create: (_) => getIt<CartCubit>(),
+        ),
       ],
       child: child,
     );
@@ -51,6 +55,9 @@ class AppProviders {
         ),
         BlocProvider<ProductCubit>(
           create: (_) => getIt<ProductCubit>(),
+        ),
+        BlocProvider<CartCubit>(
+          create: (_) => getIt<CartCubit>(),
         ),
       ],
       child: child,

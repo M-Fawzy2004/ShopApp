@@ -4,6 +4,7 @@ import 'package:clothes_ecommerce_app/feature/auth/presentation/view/forget_pass
 import 'package:clothes_ecommerce_app/feature/auth/presentation/view/login_view.dart';
 import 'package:clothes_ecommerce_app/feature/auth/presentation/view/register_view.dart';
 import 'package:clothes_ecommerce_app/feature/auth/presentation/view/reset_password_view.dart';
+import 'package:clothes_ecommerce_app/feature/cart/presentation/view/cart_view.dart';
 import 'package:clothes_ecommerce_app/feature/categories/presentation/view/categories_view.dart';
 import 'package:clothes_ecommerce_app/feature/categories_details/presentation/view/categories_details_view.dart';
 import 'package:clothes_ecommerce_app/feature/home/domain/entities/category_entity.dart';
@@ -27,6 +28,7 @@ abstract class AppRouter {
   static const profileView = '/profileView';
   static const productDetailsView = '/productDetailsView';
   static const categoriesDetailsView = '/categoriesDetailsView';
+  static const cartView = '/cartView';
 
   static var router = GoRouter(
     routes: [
@@ -112,6 +114,12 @@ abstract class AppRouter {
         builder: (BuildContext context, GoRouterState state) {
           final category = state.extra as CategoryEntity;
           return CategoriesDetailsView(category: category);
+        },
+      ),
+      GoRoute(
+        path: cartView,
+        builder: (BuildContext context, GoRouterState state) {
+          return const CartView();
         },
       ),
     ],

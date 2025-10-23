@@ -6,7 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductQuantitySelector extends StatelessWidget {
-  const ProductQuantitySelector({super.key});
+  const ProductQuantitySelector({
+    super.key,
+    required this.quantity,
+    required this.onIncrement,
+    required this.onDecrement,
+  });
+
+  final int quantity;
+  final VoidCallback onIncrement;
+  final VoidCallback onDecrement;
 
   @override
   Widget build(BuildContext context) {
@@ -31,19 +40,21 @@ class ProductQuantitySelector extends StatelessWidget {
           ),
           const Spacer(),
           CircleIcon(
-            onTap: () {},
+            onTap: onIncrement,
             icon: Icons.add,
             color: AppColors.primaryColor,
             colorIcon: AppColors.white,
           ),
           widthBox(15),
-          Text('1', style: AppStyles.font16BlackBold(context)),
+          Text('$quantity', style: AppStyles.font16BlackBold(context)),
           widthBox(15),
           CircleIcon(
-            onTap: () {},
+            onTap: onDecrement,
             icon: Icons.remove,
-            color: AppColors.primaryColor,
-            colorIcon: AppColors.white,
+            color: quantity > 1
+                ? AppColors.primaryColor
+                : Colors.grey.withOpacity(0.3),
+            colorIcon: quantity > 1 ? AppColors.white : Colors.grey,
           ),
         ],
       ),

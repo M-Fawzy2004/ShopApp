@@ -5,9 +5,18 @@ import 'package:clothes_ecommerce_app/feature/product_details/presentation/view/
 import 'package:flutter/material.dart';
 
 class ProductDetailsViewBody extends StatelessWidget {
-  const ProductDetailsViewBody({super.key, required this.product});
+  const ProductDetailsViewBody({
+    super.key,
+    required this.product,
+    required this.quantity,
+    required this.onIncrement,
+    required this.onDecrement,
+  });
 
   final ProductEntity product;
+  final int quantity;
+  final VoidCallback onIncrement;
+  final VoidCallback onDecrement;
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +24,14 @@ class ProductDetailsViewBody extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
-          // Product Details Header
           ProductDetailsHeader(product: product),
-          // height
           heightBox(40),
-          // Product Details Section
-          ProductDetailsSection(product: product),
+          ProductDetailsSection(
+            product: product,
+            quantity: quantity,
+            onIncrement: onIncrement,
+            onDecrement: onDecrement,
+          ),
         ],
       ),
     );

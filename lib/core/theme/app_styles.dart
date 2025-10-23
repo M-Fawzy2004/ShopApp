@@ -16,6 +16,12 @@ class AppStyles {
         color: AppColors.darkGrey,
       );
 
+  static TextStyle font14greyBold(BuildContext context) => TextStyle(
+        fontSize: 14.sp,
+        fontWeight: FontWeightHelper.bold,
+        color: AppColors.darkGrey,
+      );
+
   static TextStyle font16BlackBold(BuildContext context) => TextStyle(
         fontSize: 16.sp,
         fontWeight: FontWeightHelper.bold,

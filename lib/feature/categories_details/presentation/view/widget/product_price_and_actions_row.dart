@@ -1,8 +1,12 @@
+import 'package:clothes_ecommerce_app/core/helper/custom_snackbar.dart';
 import 'package:clothes_ecommerce_app/core/helper/spacing.dart';
 import 'package:clothes_ecommerce_app/core/theme/app_colors.dart';
 import 'package:clothes_ecommerce_app/core/theme/app_styles.dart';
+import 'package:clothes_ecommerce_app/feature/cart/data/model/product_model.dart';
+import 'package:clothes_ecommerce_app/feature/cart/presentation/manager/cart_cubit/cart_cubit.dart';
 import 'package:clothes_ecommerce_app/feature/home/domain/entities/product_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconly/iconly.dart';
 
@@ -57,7 +61,20 @@ class ProductPriceAndActionsRow extends StatelessWidget {
               ),
               child: IconButton(
                 padding: EdgeInsets.zero,
-                onPressed: () {},
+                onPressed: () {
+                  final productModel = Product(
+                    id: product.id.toString(),
+                    name: product.title,
+                    price: product.price,
+                    image: product.thumbnail,
+                  );
+                  context.read<CartCubit>().addProduct(productModel);
+                  CustomSnackBar.show(
+                    context,
+                    message: 'Product added to cart',
+                    type: SnackBarType.success,
+                  );
+                },
                 icon: Icon(
                   IconlyLight.buy,
                   color: Colors.white,

@@ -10,9 +10,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductDetailsSection extends StatelessWidget {
-  const ProductDetailsSection({super.key, required this.product});
+  const ProductDetailsSection({
+    super.key,
+    required this.product,
+    required this.quantity,
+    required this.onIncrement,
+    required this.onDecrement,
+  });
 
   final ProductEntity product;
+  final int quantity;
+  final VoidCallback onIncrement;
+  final VoidCallback onDecrement;
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +30,14 @@ class ProductDetailsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Product Rating
           ProductRatingRow(product: product),
           heightBox(20),
-          // Product Quantity
-          const ProductQuantitySelector(),
+          ProductQuantitySelector(
+            quantity: quantity,
+            onIncrement: onIncrement,
+            onDecrement: onDecrement,
+          ),
           heightBox(20),
-          // Product Description
           Text(
             product.description,
             textAlign: TextAlign.left,
@@ -37,18 +47,11 @@ class ProductDetailsSection extends StatelessWidget {
             ),
           ),
           heightBox(24),
-          // Product Information Section
           ProductInfoSection(product: product),
           heightBox(24),
-          // Return Policy
-          ProductReturnPolicy(
-            returnPolicy: product.returnPolicy,
-          ),
+          ProductReturnPolicy(returnPolicy: product.returnPolicy),
           heightBox(24),
-          // Product Reviews
-          ProductReviewsSection(
-            reviews: product.reviews,
-          ),
+          ProductReviewsSection(reviews: product.reviews),
           heightBox(20),
         ],
       ),
