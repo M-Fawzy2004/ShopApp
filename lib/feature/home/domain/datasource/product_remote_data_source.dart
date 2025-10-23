@@ -7,4 +7,11 @@ abstract class ProductRemoteDataSource {
     int skip = 0,
     int limit = 10,
   });
+
+  // search products
+  Future<List<ProductModel>> searchProducts({
+    required String query,
+    int skip = 0,
+    int limit = 20,
+  });
 }

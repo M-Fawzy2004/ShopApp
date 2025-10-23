@@ -5,6 +5,8 @@ import 'package:clothes_ecommerce_app/feature/auth/presentation/view/login_view.
 import 'package:clothes_ecommerce_app/feature/auth/presentation/view/register_view.dart';
 import 'package:clothes_ecommerce_app/feature/auth/presentation/view/reset_password_view.dart';
 import 'package:clothes_ecommerce_app/feature/categories/presentation/view/categories_view.dart';
+import 'package:clothes_ecommerce_app/feature/categories_details/presentation/view/categories_details_view.dart';
+import 'package:clothes_ecommerce_app/feature/home/domain/entities/category_entity.dart';
 import 'package:clothes_ecommerce_app/feature/home/domain/entities/product_entity.dart';
 import 'package:clothes_ecommerce_app/feature/main_home/presentation/view/main_view.dart';
 import 'package:clothes_ecommerce_app/feature/product_details/presentation/view/product_details_view.dart';
@@ -24,6 +26,7 @@ abstract class AppRouter {
   static const categoriesView = '/categoriesView';
   static const profileView = '/profileView';
   static const productDetailsView = '/productDetailsView';
+  static const categoriesDetailsView = '/categoriesDetailsView';
 
   static var router = GoRouter(
     routes: [
@@ -101,7 +104,14 @@ abstract class AppRouter {
         path: productDetailsView,
         builder: (BuildContext context, GoRouterState state) {
           final product = state.extra as ProductEntity;
-          return  ProductDetailsView(product: product);
+          return ProductDetailsView(product: product);
+        },
+      ),
+      GoRoute(
+        path: categoriesDetailsView,
+        builder: (BuildContext context, GoRouterState state) {
+          final category = state.extra as CategoryEntity;
+          return CategoriesDetailsView(category: category);
         },
       ),
     ],

@@ -38,4 +38,18 @@ class AppProviders {
       child: child,
     );
   }
+
+  static Widget getApiCategoriesAndProductsView({required Widget child}) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<CategoryCubit>(
+          create: (_) => getIt<CategoryCubit>()..getCategories(),
+        ),
+        BlocProvider<ProductCubit>(
+          create: (_) => getIt<ProductCubit>(),
+        ),
+      ],
+      child: child,
+    );
+  }
 }

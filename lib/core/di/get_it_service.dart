@@ -13,8 +13,10 @@ import 'package:clothes_ecommerce_app/feature/home/domain/repo/category_reposito
 import 'package:clothes_ecommerce_app/feature/home/domain/repo/product_repository.dart';
 import 'package:clothes_ecommerce_app/feature/home/domain/use_case/get_categories_use_case.dart';
 import 'package:clothes_ecommerce_app/feature/home/domain/use_case/get_products_by_category_use_case.dart';
+import 'package:clothes_ecommerce_app/feature/home/domain/use_case/search_products_use_case.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/manager/category_cubit/category_cubit.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/manager/product_cubit/product_cubit.dart';
+import 'package:clothes_ecommerce_app/feature/home/presentation/manager/search_cubit/search_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -116,6 +118,11 @@ Future<void> initDependencies() async {
     () => GetProductsByCategoryUseCase(repository: getIt()),
   );
 
+  // Search Products Use Case
+  getIt.registerLazySingleton(() => SearchProductsUseCase(
+        repository: getIt<ProductRepository>(),
+      ));
+
   ///////////////////// Services /////////////////////
 
   // Auth Service
@@ -143,6 +150,11 @@ Future<void> initDependencies() async {
   // Product Cubit
   getIt.registerFactory<ProductCubit>(
     () => ProductCubit(getProductsByCategoryUseCase: getIt()),
+  );
+
+  // Search Cubit
+  getIt.registerFactory(
+    () => SearchCubit(searchProductsUseCase: getIt<SearchProductsUseCase>()),
   );
 }
 
