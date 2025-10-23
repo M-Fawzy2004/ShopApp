@@ -1,3 +1,4 @@
+import 'package:clothes_ecommerce_app/core/const/app_const.dart';
 import 'package:clothes_ecommerce_app/core/di/get_it_service.dart';
 import 'package:clothes_ecommerce_app/ecommerce_app.dart';
 import 'package:clothes_ecommerce_app/feature/cart/data/model/product_model.dart';
@@ -15,7 +16,7 @@ void main() async {
   Hive.registerAdapter(ProductAdapter());
 
   // Open boxes
-  final cartBox = await Hive.openBox<Product>('cart');
+  final cartBox = await Hive.openBox<Product>(AppConst.cartBox);
 
   // Initialize dependencies and setup cart dependencies
   await initDependencies();

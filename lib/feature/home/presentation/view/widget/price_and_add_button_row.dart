@@ -1,4 +1,3 @@
-import 'package:clothes_ecommerce_app/core/helper/app_radius.dart';
 import 'package:clothes_ecommerce_app/core/helper/custom_snackbar.dart';
 import 'package:clothes_ecommerce_app/core/theme/app_colors.dart';
 import 'package:clothes_ecommerce_app/core/theme/app_styles.dart';
@@ -17,7 +16,6 @@ class PriceAndAddButtonRow extends StatelessWidget {
   });
 
   final double finalPrice;
-
   final ProductEntity product;
 
   @override
@@ -39,8 +37,9 @@ class PriceAndAddButtonRow extends StatelessWidget {
                 color: AppColors.primaryColor,
                 shape: BoxShape.circle,
               ),
-              child: InkWell(
-                onTap: () {
+              child: IconButton(
+                padding: EdgeInsets.zero,
+                onPressed: () {
                   final productModel = Product(
                     id: product.id.toString(),
                     name: product.title,
@@ -54,8 +53,7 @@ class PriceAndAddButtonRow extends StatelessWidget {
                     type: SnackBarType.success,
                   );
                 },
-                borderRadius: BorderRadius.circular(AppRadius.large),
-                child: Icon(
+                icon: Icon(
                   Icons.add,
                   color: Colors.white,
                   size: 20.sp,

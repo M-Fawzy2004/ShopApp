@@ -115,8 +115,7 @@ abstract class AppRouter {
           final category = state.extra as CategoryEntity;
           return CategoriesDetailsView(category: category);
         },
-      ),
-      GoRoute(
+      ),GoRoute(
         path: cartView,
         builder: (BuildContext context, GoRouterState state) {
           return const CartView();

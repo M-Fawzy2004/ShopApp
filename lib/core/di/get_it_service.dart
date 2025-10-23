@@ -5,6 +5,7 @@ import 'package:clothes_ecommerce_app/feature/auth/domain/repo/auth_repository.d
 import 'package:clothes_ecommerce_app/feature/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:clothes_ecommerce_app/feature/cart/data/model/product_model.dart';
 import 'package:clothes_ecommerce_app/feature/cart/presentation/manager/cart_cubit/cart_cubit.dart';
+import 'package:clothes_ecommerce_app/feature/cart/presentation/manager/favorites_cubit/favorites_cubit.dart';
 import 'package:clothes_ecommerce_app/feature/home/data/datasource/category_remote_data_source_impl.dart';
 import 'package:clothes_ecommerce_app/feature/home/data/datasource/product_remote_data_source_impl.dart';
 import 'package:clothes_ecommerce_app/feature/home/data/repo/category_repository_impl.dart';
@@ -197,4 +198,6 @@ Dio createCustomDio({
 void setupCartDependencies(Box<Product> cartBox) {
   // Register CartCubit as a singleton with the cart box
   getIt.registerLazySingleton<CartCubit>(() => CartCubit(cartBox));
+  // Register FavoritesCubit as a singleton with the cart box
+  getIt.registerLazySingleton<FavoritesCubit>(() => FavoritesCubit(cartBox));
 }

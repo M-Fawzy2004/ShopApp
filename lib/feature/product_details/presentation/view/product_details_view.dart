@@ -1,5 +1,6 @@
 import 'package:clothes_ecommerce_app/core/di/get_it_service.dart';
 import 'package:clothes_ecommerce_app/feature/cart/presentation/manager/cart_cubit/cart_cubit.dart';
+import 'package:clothes_ecommerce_app/feature/cart/presentation/manager/favorites_cubit/favorites_cubit.dart';
 import 'package:clothes_ecommerce_app/feature/home/domain/entities/product_entity.dart';
 import 'package:clothes_ecommerce_app/feature/product_details/presentation/view/widget/product_bottom_bar.dart';
 import 'package:clothes_ecommerce_app/feature/product_details/presentation/view/widget/product_details_view_body.dart';
@@ -34,8 +35,15 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: getIt<CartCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(
+          value: getIt<CartCubit>(),
+        ),
+        BlocProvider.value(
+          value: getIt<FavoritesCubit>(),
+        ),
+      ],
       child: Scaffold(
         body: ProductDetailsViewBody(
           product: widget.product,

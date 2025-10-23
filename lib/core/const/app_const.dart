@@ -10,4 +10,7 @@ class AppConst {
 
   // tabel profile users
   static const tabelProfileUser = 'profiles';
+
+  // cart box
+  static const cartBox = 'cart';
 }
