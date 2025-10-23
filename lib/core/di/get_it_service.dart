@@ -3,6 +3,8 @@ import 'package:clothes_ecommerce_app/feature/auth/data/repo/auth_repository_imp
 import 'package:clothes_ecommerce_app/feature/auth/data/service/auth_service.dart';
 import 'package:clothes_ecommerce_app/feature/auth/domain/repo/auth_repository.dart';
 import 'package:clothes_ecommerce_app/feature/auth/presentation/manager/auth_cubit/auth_cubit.dart';
+import 'package:clothes_ecommerce_app/feature/cart/data/model/product_model.dart';
+import 'package:clothes_ecommerce_app/feature/cart/presentation/manager/cart_cubit/cart_cubit.dart';
 import 'package:clothes_ecommerce_app/feature/home/data/datasource/category_remote_data_source_impl.dart';
 import 'package:clothes_ecommerce_app/feature/home/data/datasource/product_remote_data_source_impl.dart';
 import 'package:clothes_ecommerce_app/feature/home/data/repo/category_repository_impl.dart';
@@ -20,6 +22,7 @@ import 'package:clothes_ecommerce_app/feature/home/presentation/manager/search_c
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hive/hive.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final getIt = GetIt.instance;
@@ -189,4 +192,9 @@ Dio createCustomDio({
         error: true,
       ),
     );
+}
+
+void setupCartDependencies(Box<Product> cartBox) {
+  // Register CartCubit as a singleton with the cart box
+  getIt.registerLazySingleton<CartCubit>(() => CartCubit(cartBox));
 }

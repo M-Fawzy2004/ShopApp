@@ -13,6 +13,10 @@ class CategoriesViewBody extends StatelessWidget {
       slivers: [
         // sliver app bar
         const CategoriesAppBar(),
+        // height box
+        SliverToBoxAdapter(
+          child: heightBox(20),
+        ),
         // categories
         const SliverToBoxAdapter(
           child: CategoryGridBlocBuilder(),
