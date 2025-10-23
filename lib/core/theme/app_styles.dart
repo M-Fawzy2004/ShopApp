@@ -52,6 +52,12 @@ class AppStyles {
         color: AppColors.black,
       );
 
+  static TextStyle font14BlackBold(BuildContext context) => TextStyle(
+        fontSize: 14.sp,
+        fontWeight: FontWeightHelper.bold,
+        color: AppColors.black,
+      );
+
   static TextStyle font12BlackBold(BuildContext context) => TextStyle(
         fontSize: 12.sp,
         fontWeight: FontWeightHelper.bold,
