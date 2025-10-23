@@ -10,8 +10,10 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppProviders.getApi(
-      child:  Scaffold(
-        body: HomeViewBody(onNavigateToSubjects : onNavigateToSubjects,),
+      child: Scaffold(
+        body: HomeViewBody(
+          onNavigateToSubjects: onNavigateToSubjects,
+        ),
       ),
     );
   }

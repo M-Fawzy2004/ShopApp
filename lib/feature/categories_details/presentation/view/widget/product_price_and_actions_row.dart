@@ -1,0 +1,73 @@
+import 'package:clothes_ecommerce_app/core/helper/spacing.dart';
+import 'package:clothes_ecommerce_app/core/theme/app_colors.dart';
+import 'package:clothes_ecommerce_app/core/theme/app_styles.dart';
+import 'package:clothes_ecommerce_app/feature/home/domain/entities/product_entity.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:iconly/iconly.dart';
+
+class ProductPriceAndActionsRow extends StatelessWidget {
+  const ProductPriceAndActionsRow({super.key, required this.product});
+
+  final ProductEntity product;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(
+          '\$${product.price.toStringAsFixed(0)}',
+          style: AppStyles.font16BlackBold(context).copyWith(
+            fontSize: 18.sp,
+            color: AppColors.primaryColor,
+          ),
+        ),
+        Row(
+          children: [
+            Container(
+              width: 36.w,
+              height: 36.h,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.grey.shade300,
+                  width: 1,
+                ),
+              ),
+              child: IconButton(
+                padding: EdgeInsets.zero,
+                icon: Icon(
+                  IconlyLight.heart,
+                  color: AppColors.primaryColor,
+                  size: 18.sp,
+                ),
+                onPressed: () {},
+              ),
+            ),
+            widthBox(8),
+            Container(
+              width: 36.w,
+              height: 36.h,
+              decoration: const BoxDecoration(
+                color: AppColors.primaryColor,
+                shape: BoxShape.circle,
+              ),
+              child: IconButton(
+                padding: EdgeInsets.zero,
+                onPressed: () {},
+                icon: Icon(
+                  IconlyLight.buy,
+                  color: Colors.white,
+                  size: 18.sp,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}

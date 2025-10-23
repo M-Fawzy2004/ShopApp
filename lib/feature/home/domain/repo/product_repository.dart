@@ -9,4 +9,11 @@ abstract class ProductRepository {
     int skip = 0,
     int limit = 10,
   });
+
+  // search products
+  Future<Either<Failure, List<ProductEntity>>> searchProducts({
+    required String query,
+    int skip = 0,
+    int limit = 20,
+  });
 }

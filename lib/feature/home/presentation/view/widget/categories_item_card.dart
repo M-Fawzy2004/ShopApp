@@ -1,3 +1,4 @@
+import 'package:clothes_ecommerce_app/core/helper/app_router.dart';
 import 'package:clothes_ecommerce_app/core/helper/custom_loading_widget.dart';
 import 'package:clothes_ecommerce_app/core/helper/spacing.dart';
 import 'package:clothes_ecommerce_app/core/theme/app_colors.dart';
@@ -5,6 +6,7 @@ import 'package:clothes_ecommerce_app/core/theme/app_styles.dart';
 import 'package:clothes_ecommerce_app/feature/home/domain/entities/category_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class CategoriesItemCard extends StatelessWidget {
   final CategoryEntity category;
@@ -17,7 +19,9 @@ class CategoriesItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        context.push(AppRouter.categoriesDetailsView, extra: category);
+      },
       child: Column(
         children: [
           Container(

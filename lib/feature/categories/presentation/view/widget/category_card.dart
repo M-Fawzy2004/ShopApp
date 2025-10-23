@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clothes_ecommerce_app/core/helper/app_radius.dart';
+import 'package:clothes_ecommerce_app/core/helper/extension.dart';
 import 'package:clothes_ecommerce_app/feature/categories/presentation/view/widget/category_info_overlay.dart';
+import 'package:clothes_ecommerce_app/feature/categories_details/presentation/view/categories_details_view.dart';
 import 'package:clothes_ecommerce_app/feature/home/domain/entities/category_entity.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +31,11 @@ class _CategoryCardState extends State<CategoryCard> {
       onTapDown: (_) => setState(() => isPressed = true),
       onTapUp: (_) => setState(() => isPressed = false),
       onTapCancel: () => setState(() => isPressed = false),
-      onTap: () {},
+      onTap: () {
+        context.navigateWithSlideTransition(
+           CategoriesDetailsView(category: widget.category),
+        );
+      },
       child: AnimatedScale(
         scale: isPressed ? 0.95 : 1.0,
         duration: const Duration(milliseconds: 200),
