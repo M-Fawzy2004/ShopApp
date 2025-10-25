@@ -198,6 +198,10 @@ Dio createCustomDio({
 void setupCartDependencies(Box<Product> cartBox) {
   // Register CartCubit as a singleton with the cart box
   getIt.registerLazySingleton<CartCubit>(() => CartCubit(cartBox));
-  // Register FavoritesCubit as a singleton with the cart box
-  getIt.registerLazySingleton<FavoritesCubit>(() => FavoritesCubit(cartBox));
 }
+
+void setupFavoriteDependencies(Box<Product> favoriteBox) {
+  // Register FavoritesCubit as a singleton with the favorite box
+  getIt.registerLazySingleton<FavoritesCubit>(() => FavoritesCubit(favoriteBox));
+}
+

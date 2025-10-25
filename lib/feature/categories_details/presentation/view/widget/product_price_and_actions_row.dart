@@ -24,6 +24,7 @@ class ProductPriceAndActionsRow extends StatelessWidget {
       image: product.thumbnail,
       quantity: 1,
       isFavorite: false,
+      isInCart: false,
     );
   }
 
@@ -100,6 +101,9 @@ class ProductPriceAndActionsRow extends StatelessWidget {
                     name: product.title,
                     price: product.price,
                     image: product.thumbnail,
+                    quantity: 1,
+                    isInCart: false,
+                    isFavorite: false,
                   );
                   context.read<CartCubit>().addProduct(productModel);
                   CustomSnackBar.show(

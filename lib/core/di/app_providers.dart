@@ -33,9 +33,6 @@ class AppProviders {
         BlocProvider<SearchCubit>(
           create: (_) => getIt<SearchCubit>(),
         ),
-        BlocProvider<CartCubit>(
-          create: (_) => getIt<CartCubit>(),
-        ),
       ],
       child: child,
     );
@@ -56,12 +53,6 @@ class AppProviders {
         ),
         BlocProvider<ProductCubit>(
           create: (_) => getIt<ProductCubit>(),
-        ),
-        BlocProvider<CartCubit>(
-          create: (_) => getIt<CartCubit>(),
-        ),
-        BlocProvider<FavoritesCubit>(
-          create: (_) => getIt<FavoritesCubit>(),
         ),
       ],
       child: child,

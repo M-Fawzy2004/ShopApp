@@ -25,6 +25,7 @@ class ProductDetailsHeader extends StatelessWidget {
       image: product.thumbnail,
       quantity: 1,
       isFavorite: false,
+      isInCart: false,
     );
   }
 

@@ -7,35 +7,50 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   final Box<Product> favoritesBox;
 
   FavoritesCubit(this.favoritesBox) : super(FavoritesInitial()) {
+    print('🟢 FavoritesCubit created');
     loadFavorites();
   }
 
   void loadFavorites() {
     if (isClosed) return;
     try {
+      print('📦 Loading favorites...');
       emit(FavoritesLoading());
-      final favorites = favoritesBox.values.where((product) => product.isFavorite).toList();
+      
+      final favorites = favoritesBox.values.toList();
+      print('✅ Loaded ${favorites.length} favorites');
+      print('📋 Box keys: ${favoritesBox.keys.toList()}');
+      
       emit(FavoritesLoaded(favorites: favorites));
     } catch (e) {
+      print('❌ Error loading favorites: $e');
       emit(FavoritesError('Failed to load favorites: ${e.toString()}'));
     }
   }
 
   void toggleFavorite(Product product) {
-    if (isClosed) return;
+    if (isClosed) {
+      print('⚠️ Cubit is closed!');
+      return;
+    }
+    
     try {
+      print('🔄 Toggle favorite: ${product.id} - ${product.name}');
       final existingProduct = favoritesBox.get(product.id);
+      print('🔍 Existing product: ${existingProduct?.name ?? "Not found"}');
 
       if (existingProduct != null) {
-        existingProduct.isFavorite = !existingProduct.isFavorite;
-        existingProduct.save();
+        print('🗑️ Removing from favorites: ${product.id}');
+        favoritesBox.delete(product.id);
       } else {
-        product.isFavorite = true;
+        print('➕ Adding to favorites: ${product.id}');
         favoritesBox.put(product.id, product);
       }
 
+      print('📊 Box size after toggle: ${favoritesBox.length}');
       loadFavorites();
     } catch (e) {
+      print('❌ Toggle error: $e');
       emit(FavoritesError('Failed to toggle favorite: ${e.toString()}'));
     }
   }
@@ -43,19 +58,24 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   void removeFromFavorites(String productId) {
     if (isClosed) return;
     try {
-      final product = favoritesBox.get(productId);
-      if (product != null) {
-        product.isFavorite = false;
-        product.save();
-        loadFavorites();
-      }
+      print('🗑️ Removing: $productId');
+      favoritesBox.delete(productId);
+      loadFavorites();
     } catch (e) {
+      print('❌ Remove error: $e');
       emit(FavoritesError('Failed to remove favorite: ${e.toString()}'));
     }
   }
 
   bool isFavorite(String productId) {
-    final product = favoritesBox.get(productId);
-    return product?.isFavorite ?? false;
+    final exists = favoritesBox.containsKey(productId);
+    print('❓ Is $productId favorite? $exists');
+    return exists;
+  }
+
+  @override
+  Future<void> close() {
+    print('🔴 FavoritesCubit closing');
+    return super.close();
   }
 }

@@ -1,11 +1,7 @@
-import 'package:clothes_ecommerce_app/core/di/get_it_service.dart';
-import 'package:clothes_ecommerce_app/feature/cart/presentation/manager/cart_cubit/cart_cubit.dart';
-import 'package:clothes_ecommerce_app/feature/cart/presentation/manager/favorites_cubit/favorites_cubit.dart';
 import 'package:clothes_ecommerce_app/feature/home/domain/entities/product_entity.dart';
 import 'package:clothes_ecommerce_app/feature/product_details/presentation/view/widget/product_bottom_bar.dart';
 import 'package:clothes_ecommerce_app/feature/product_details/presentation/view/widget/product_details_view_body.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductDetailsView extends StatefulWidget {
   const ProductDetailsView({super.key, required this.product});
@@ -35,26 +31,16 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider.value(
-          value: getIt<CartCubit>(),
-        ),
-        BlocProvider.value(
-          value: getIt<FavoritesCubit>(),
-        ),
-      ],
-      child: Scaffold(
-        body: ProductDetailsViewBody(
-          product: widget.product,
-          quantity: quantity,
-          onIncrement: _incrementQuantity,
-          onDecrement: _decrementQuantity,
-        ),
-        bottomNavigationBar: ProductBottomBar(
-          product: widget.product,
-          quantity: quantity,
-        ),
+    return Scaffold(
+      body: ProductDetailsViewBody(
+        product: widget.product,
+        quantity: quantity,
+        onIncrement: _incrementQuantity,
+        onDecrement: _decrementQuantity,
+      ),
+      bottomNavigationBar: ProductBottomBar(
+        product: widget.product,
+        quantity: quantity,
       ),
     );
   }

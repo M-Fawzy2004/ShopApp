@@ -13,4 +13,10 @@ class AppConst {
 
   // cart box
   static const cartBox = 'cart';
+
+  // favorite box
+  static const favoriteBox = 'favorite';
+
+  // products box
+  static const String productsBox = 'products';
 }
