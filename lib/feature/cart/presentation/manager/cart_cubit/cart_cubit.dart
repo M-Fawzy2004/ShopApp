@@ -7,23 +7,17 @@ class CartCubit extends Cubit<CartState> {
   final Box<Product> cartBox;
 
   CartCubit(this.cartBox) : super(CartInitial()) {
-    print('🟢 CartCubit created');
     loadCart();
   }
 
   void loadCart() {
     if (isClosed) return;
     try {
-      print('📦 Loading cart...');
       emit(CartLoading());
-      
+
       final products = cartBox.values.toList();
-      print('✅ Loaded ${products.length} cart items');
-      print('📋 Box keys: ${cartBox.keys.toList()}');
-      
       _emitCartLoaded(products);
     } catch (e) {
-      print('❌ Error loading cart: $e');
       emit(CartError('Cart loading failed: ${e.toString()}'));
     }
   }
@@ -31,24 +25,19 @@ class CartCubit extends Cubit<CartState> {
   void addProduct(Product product) {
     if (isClosed) return;
     try {
-      print('➕ Adding to cart: ${product.id} - ${product.name}');
       final existingProduct = cartBox.get(product.id);
 
       if (existingProduct != null) {
-        print('📈 Increasing quantity from ${existingProduct.quantity} to ${existingProduct.quantity + product.quantity}');
         final updated = existingProduct.copyWith(
           quantity: existingProduct.quantity + product.quantity,
         );
         cartBox.put(product.id, updated);
       } else {
-        print('🆕 New product added');
         cartBox.put(product.id, product);
       }
 
-      print('📊 Cart size: ${cartBox.length}');
       loadCart();
     } catch (e) {
-      print('❌ Add error: $e');
       emit(CartError('Product addition failed: ${e.toString()}'));
     }
   }
@@ -56,12 +45,9 @@ class CartCubit extends Cubit<CartState> {
   void removeProduct(String productId) {
     if (isClosed) return;
     try {
-      print('🗑️ Removing from cart: $productId');
       cartBox.delete(productId);
-      print('📊 Cart size: ${cartBox.length}');
       loadCart();
     } catch (e) {
-      print('❌ Remove error: $e');
       emit(CartError('Product removal failed: ${e.toString()}'));
     }
   }
@@ -69,8 +55,6 @@ class CartCubit extends Cubit<CartState> {
   void updateQuantity(String productId, int quantity) {
     if (isClosed) return;
     try {
-      print('🔄 Update quantity: $productId -> $quantity');
-      
       if (quantity <= 0) {
         removeProduct(productId);
         return;
@@ -80,13 +64,9 @@ class CartCubit extends Cubit<CartState> {
       if (product != null) {
         final updated = product.copyWith(quantity: quantity);
         cartBox.put(productId, updated);
-        print('✅ Quantity updated');
         loadCart();
-      } else {
-        print('⚠️ Product not found in cart');
-      }
+      } else {}
     } catch (e) {
-      print('❌ Update error: $e');
       emit(CartError('Quantity update failed: ${e.toString()}'));
     }
   }
@@ -94,11 +74,9 @@ class CartCubit extends Cubit<CartState> {
   void clearCart() {
     if (isClosed) return;
     try {
-      print('🗑️ Clearing cart');
       cartBox.clear();
       loadCart();
     } catch (e) {
-      print('❌ Clear error: $e');
       emit(CartError('Cart clearing failed: ${e.toString()}'));
     }
   }
@@ -114,19 +92,10 @@ class CartCubit extends Cubit<CartState> {
       0,
       (sum, product) => sum + product.quantity,
     );
-
-    print('💰 Total: $totalPrice | Items: $totalItems');
-
     emit(CartLoaded(
       products: products,
       totalPrice: totalPrice,
       totalItems: totalItems,
     ));
-  }
-
-  @override
-  Future<void> close() {
-    print('🔴 CartCubit closing');
-    return super.close();
   }
 }

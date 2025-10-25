@@ -4,6 +4,7 @@ import 'package:clothes_ecommerce_app/core/theme/app_colors.dart';
 import 'package:clothes_ecommerce_app/core/theme/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'order_confirmation_bottom_sheet.dart';
 
 class CartSummaryCard extends StatelessWidget {
   const CartSummaryCard({
@@ -32,7 +33,6 @@ class CartSummaryCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // Order Summary Header
           Row(
             children: [
               Icon(
@@ -51,7 +51,6 @@ class CartSummaryCard extends StatelessWidget {
             ],
           ),
           heightBox(20),
-          // Total Items Row
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -79,14 +78,11 @@ class CartSummaryCard extends StatelessWidget {
             ],
           ),
           heightBox(16),
-
           Divider(
             color: Colors.grey.withOpacity(0.3),
             thickness: 1,
           ),
           heightBox(16),
-
-          // Total Price Row
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -108,12 +104,16 @@ class CartSummaryCard extends StatelessWidget {
             ],
           ),
           heightBox(20),
-          // Confirm Order Button
           SizedBox(
             width: double.infinity,
             height: 50.h,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                showOrderConfirmationSheet(
+                  context: context,
+                  onConfirm: (governorate, phoneNumber, detailedAddress) {},
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryColor,
                 elevation: 2,
