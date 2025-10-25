@@ -1,3 +1,4 @@
+import 'package:clothes_ecommerce_app/core/di/app_providers.dart';
 import 'package:clothes_ecommerce_app/core/helper/custom_loading_widget.dart';
 import 'package:clothes_ecommerce_app/core/helper/spacing.dart';
 import 'package:clothes_ecommerce_app/core/theme/app_styles.dart';
@@ -22,57 +23,59 @@ class _CartViewBodyState extends State<CartViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CartCubit, CartState>(
-      builder: (context, state) {
-        if (state is CartLoading && selectedTabIndex == 0) {
-          return const Center(
-            child: CustomLoadingWidget(),
-          );
-        }
-        if (state is CartError && selectedTabIndex == 0) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.error_outline,
-                  size: 80.sp,
-                  color: Colors.red,
-                ),
-                heightBox(16),
-                Text(
-                  state.message,
-                  style: AppStyles.font16BlackBold(context).copyWith(
+    return AppProviders.blocProviderCart(
+      child: BlocBuilder<CartCubit, CartState>(
+        builder: (context, state) {
+          if (state is CartLoading && selectedTabIndex == 0) {
+            return const Center(
+              child: CustomLoadingWidget(),
+            );
+          }
+          if (state is CartError && selectedTabIndex == 0) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.error_outline,
+                    size: 80.sp,
                     color: Colors.red,
                   ),
-                ),
-              ],
-            ),
+                  heightBox(16),
+                  Text(
+                    state.message,
+                    style: AppStyles.font16BlackBold(context).copyWith(
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+      
+          return CustomScrollView(
+            physics: const BouncingScrollPhysics(),
+            slivers: [
+              CartAppBar(
+                selectedIndex: selectedTabIndex,
+                onTabChanged: (index) {
+                  setState(() {
+                    selectedTabIndex = index;
+                  });
+                },
+              ),
+              SliverToBoxAdapter(child: heightBox(20)),
+              // Show content based on selected tab
+              if (selectedTabIndex == 0)
+                state is CartLoaded
+                    ? CartContentWidget(state: state)
+                    : const SliverToBoxAdapter(child: SizedBox.shrink())
+              else
+                const FavouritesContentWidget(),
+            ],
           );
-        }
-
-        return CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
-            CartAppBar(
-              selectedIndex: selectedTabIndex,
-              onTabChanged: (index) {
-                setState(() {
-                  selectedTabIndex = index;
-                });
-              },
-            ),
-            SliverToBoxAdapter(child: heightBox(20)),
-            // Show content based on selected tab
-            if (selectedTabIndex == 0)
-              state is CartLoaded
-                  ? CartContentWidget(state: state)
-                  : const SliverToBoxAdapter(child: SizedBox.shrink())
-            else
-              const FavouritesContentWidget(),
-          ],
-        );
-      },
+        },
+      ),
     );
   }
 }

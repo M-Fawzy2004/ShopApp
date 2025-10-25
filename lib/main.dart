@@ -17,10 +17,12 @@ void main() async {
 
   // Open boxes
   final cartBox = await Hive.openBox<Product>(AppConst.cartBox);
+  final favoriteBox = await Hive.openBox<Product>(AppConst.favoriteBox);
 
   // Initialize dependencies and setup cart dependencies
   await initDependencies();
   setupCartDependencies(cartBox);
+  setupFavoriteDependencies(favoriteBox);
 
   runApp(
     DevicePreview(
