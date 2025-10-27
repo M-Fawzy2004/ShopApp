@@ -54,7 +54,8 @@ abstract class AppRouter {
         builder: (BuildContext context, GoRouterState state) {
           return AppProviders.auth(child: const RegisterView());
         },
-      ), // register
+      ),
+      // forget password
       GoRoute(
         path: forgetPasswordView,
         builder: (BuildContext context, GoRouterState state) {
@@ -124,10 +125,15 @@ abstract class AppRouter {
           return const CartView();
         },
       ),
+      // Updated order view to accept optional orderId
       GoRoute(
         path: orderView,
         builder: (BuildContext context, GoRouterState state) {
-          final orderId = state.extra as String;
+          // Check if extra exists and is a String
+          String? orderId;
+          if (state.extra != null && state.extra is String) {
+            orderId = state.extra as String;
+          }
           return OrderView(orderId: orderId);
         },
       ),
