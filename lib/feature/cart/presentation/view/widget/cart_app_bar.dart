@@ -1,9 +1,11 @@
 import 'package:clothes_ecommerce_app/core/helper/app_radius.dart';
+import 'package:clothes_ecommerce_app/core/helper/app_router.dart';
 import 'package:clothes_ecommerce_app/core/helper/spacing.dart';
 import 'package:clothes_ecommerce_app/core/theme/app_colors.dart';
 import 'package:clothes_ecommerce_app/core/theme/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class CartAppBar extends StatelessWidget {
   final int selectedIndex;
@@ -40,7 +42,9 @@ class CartAppBar extends StatelessWidget {
                 ),
                 const Spacer(),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.push(AppRouter.orderView);
+                  },
                   icon: Icon(
                     Icons.inventory_2_outlined,
                     size: 20.sp,

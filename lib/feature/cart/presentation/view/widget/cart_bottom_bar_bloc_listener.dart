@@ -34,11 +34,16 @@ class CartBottomBarBlocListener extends StatelessWidget {
             type: SnackBarType.success,
           );
 
-          // Navigate to order detailss
-          context.push(
-            AppRouter.orderView,
-            extra: state.order.id,
-          );
+          // Navigate to order details - pass orderId as extra
+          if (state.order.id != null) {
+            context.push(
+              AppRouter.orderView,
+              extra: state.order.id!, // Pass the order ID
+            );
+          } else {
+            // If no order ID, navigate to orders list
+            context.push(AppRouter.orderView);
+          }
         } else if (state is OrderError) {
           CustomSnackBar.show(
             context,
