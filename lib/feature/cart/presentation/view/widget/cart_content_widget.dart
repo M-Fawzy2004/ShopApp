@@ -1,9 +1,7 @@
 import 'package:clothes_ecommerce_app/core/helper/custom_snackbar.dart';
-import 'package:clothes_ecommerce_app/core/helper/spacing.dart';
 import 'package:clothes_ecommerce_app/feature/cart/presentation/manager/cart_cubit/cart_cubit.dart';
 import 'package:clothes_ecommerce_app/feature/cart/presentation/manager/cart_cubit/cart_state.dart';
 import 'package:clothes_ecommerce_app/feature/cart/presentation/view/widget/cart_item.dart';
-import 'package:clothes_ecommerce_app/feature/cart/presentation/view/widget/cart_summary_card.dart';
 import 'package:clothes_ecommerce_app/feature/cart/presentation/view/widget/empty_cart_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,10 +9,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CartContentWidget extends StatelessWidget {
   final CartLoaded state;
+  final bool showSummaryCard;
 
   const CartContentWidget({
     super.key,
     required this.state,
+    this.showSummaryCard = true,
   });
 
   @override
@@ -25,45 +25,38 @@ class CartContentWidget extends StatelessWidget {
       );
     }
 
-    return SliverList(
-      delegate: SliverChildListDelegate(
-        [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Column(
-              children: state.products.map((product) {
-                return CartItem(
-                  product: product,
-                  onDelete: () {
-                    context.read<CartCubit>().removeProduct(product.id);
-                    CustomSnackBar.show(
-                      context,
-                      message: 'Product removed',
-                      type: SnackBarType.success,
-                    );
-                  },
-                  onIncrement: () {
-                    context.read<CartCubit>().updateQuantity(
-                          product.id,
-                          product.quantity + 1,
-                        );
-                  },
-                  onDecrement: () {
-                    context.read<CartCubit>().updateQuantity(
-                          product.id,
-                          product.quantity - 1,
-                        );
-                  },
+    return SliverPadding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            final product = state.products[index];
+            return CartItem(
+              product: product,
+              onDelete: () {
+                context.read<CartCubit>().removeProduct(product.id);
+                CustomSnackBar.show(
+                  context,
+                  message: 'Product removed',
+                  type: SnackBarType.success,
                 );
-              }).toList(),
-            ),
-          ),
-          heightBox(60),
-          CartSummaryCard(
-            totalItems: state.totalItems,
-            totalPrice: state.totalPrice,
-          ),
-        ],
+              },
+              onIncrement: () {
+                context.read<CartCubit>().updateQuantity(
+                      product.id,
+                      product.quantity + 1,
+                    );
+              },
+              onDecrement: () {
+                context.read<CartCubit>().updateQuantity(
+                      product.id,
+                      product.quantity - 1,
+                    );
+              },
+            );
+          },
+          childCount: state.products.length,
+        ),
       ),
     );
   }

@@ -43,19 +43,12 @@ class ReadOnlyField extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: AppStyles.font16BlackBold(context).copyWith(
-                    fontSize: 13.sp,
-                    color: Colors.grey[600],
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: AppStyles.font13BlackMedium(context),
                 ),
                 heightBox(4),
                 Text(
                   value,
-                  style: AppStyles.font16BlackBold(context).copyWith(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: AppStyles.font16BlackBold(context),
                 ),
               ],
             ),
