@@ -98,6 +98,8 @@ class AuthService {
         throw Exception('Failed to sign in with Google');
       }
 
+      await _ensureUserProfile(response.user!);
+
       return await getUserProfile(response.user!.id);
     } catch (e) {
       rethrow;
@@ -126,7 +128,27 @@ class AuthService {
       throw Exception('Apple sign in failed');
     }
 
+    await _ensureUserProfile(response.user!);
+
     return await getUserProfile(response.user!.id);
+  }
+
+  Future<void> _ensureUserProfile(User user) async {
+    try {
+      await getUserProfile(user.id);
+    } catch (e) {
+      final profileData = {
+        'id': user.id,
+        'email': user.email,
+        'display_name': user.userMetadata?['display_name'] ??
+            user.userMetadata?['full_name'] ??
+            user.email?.split('@').first,
+        'avatar_url': user.userMetadata?['avatar_url'],
+        'created_at': DateTime.now().toIso8601String(),
+      };
+
+      await supabaseClient.from(AppConst.tabelProfileUser).upsert(profileData);
+    }
   }
 
   Future<void> sendPasswordResetCode(String email) async {

@@ -30,11 +30,24 @@ class CartAppBar extends StatelessWidget {
           children: [
             heightBox(40),
             // Title
-            Text(
-              'My Shopping',
-              style: AppStyles.font12BlackBold(context).copyWith(
-                fontSize: 20.sp,
-              ),
+            Row(
+              children: [
+                Text(
+                  'My Shopping',
+                  style: AppStyles.font12BlackBold(context).copyWith(
+                    fontSize: 20.sp,
+                  ),
+                ),
+                const Spacer(),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.inventory_2_outlined,
+                    size: 20.sp,
+                    color: Colors.black,
+                  ),
+                ),
+              ],
             ),
             heightBox(15),
             // Custom Tab Bar
