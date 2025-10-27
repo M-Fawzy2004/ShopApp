@@ -31,9 +31,12 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: currentIndex,
-        children: getScreens,
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        child: IndexedStack(
+          index: currentIndex,
+          children: getScreens,
+        ),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
         currentIndex: currentIndex,

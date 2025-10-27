@@ -5,6 +5,7 @@ import 'package:clothes_ecommerce_app/core/theme/app_styles.dart';
 import 'package:clothes_ecommerce_app/feature/cart/presentation/manager/cart_cubit/cart_cubit.dart';
 import 'package:clothes_ecommerce_app/feature/cart/presentation/manager/cart_cubit/cart_state.dart';
 import 'package:clothes_ecommerce_app/feature/cart/presentation/view/widget/cart_app_bar.dart';
+import 'package:clothes_ecommerce_app/feature/cart/presentation/view/widget/cart_bottom_bar.dart';
 import 'package:clothes_ecommerce_app/feature/cart/presentation/view/widget/cart_content_widget.dart';
 import 'package:clothes_ecommerce_app/feature/cart/presentation/view/widget/favourites_content_widget.dart';
 import 'package:flutter/material.dart';
@@ -52,26 +53,41 @@ class _CartViewBodyState extends State<CartViewBody> {
               ),
             );
           }
-      
-          return CustomScrollView(
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-              CartAppBar(
-                selectedIndex: selectedTabIndex,
-                onTabChanged: (index) {
-                  setState(() {
-                    selectedTabIndex = index;
-                  });
-                },
+
+          return Column(
+            children: [
+              Expanded(
+                child: CustomScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  slivers: [
+                    CartAppBar(
+                      selectedIndex: selectedTabIndex,
+                      onTabChanged: (index) {
+                        setState(() {
+                          selectedTabIndex = index;
+                        });
+                      },
+                    ),
+                    SliverToBoxAdapter(child: heightBox(10)),
+                    if (selectedTabIndex == 0)
+                      state is CartLoaded
+                          ? CartContentWidget(
+                              state: state,
+                              showSummaryCard: false,
+                            )
+                          : const SliverToBoxAdapter(child: SizedBox.shrink())
+                    else
+                      const FavouritesContentWidget(),
+                    // Add bottom padding to prevent content from being hidden behind bottom bar
+                    SliverToBoxAdapter(child: heightBox(50)),
+                  ],
+                ),
               ),
-              SliverToBoxAdapter(child: heightBox(20)),
-              // Show content based on selected tab
-              if (selectedTabIndex == 0)
-                state is CartLoaded
-                    ? CartContentWidget(state: state)
-                    : const SliverToBoxAdapter(child: SizedBox.shrink())
-              else
-                const FavouritesContentWidget(),
+              if (selectedTabIndex == 0 && state is CartLoaded)
+                CartBottomBar(
+                  totalItems: state.totalItems,
+                  totalPrice: state.totalPrice,
+                ),
             ],
           );
         },
