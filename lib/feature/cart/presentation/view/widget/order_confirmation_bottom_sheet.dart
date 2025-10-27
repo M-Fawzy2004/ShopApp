@@ -7,8 +7,7 @@ class OrderConfirmationBottomSheet extends StatelessWidget {
     required this.onConfirm,
   });
 
-  final Function(String governorate, String phoneNumber, String detailedAddress)
-      onConfirm;
+  final Function(String name, String governorate, String phoneNumber, String detailedAddress, String paymentMethod) onConfirm;
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +19,7 @@ class OrderConfirmationBottomSheet extends StatelessWidget {
 
 void showOrderConfirmationSheet({
   required BuildContext context,
-  required Function(
-          String governorate, String phoneNumber, String detailedAddress)
-      onConfirm,
+  required Function(String name, String governorate, String phoneNumber, String detailedAddress, String paymentMethod) onConfirm,
 }) {
   showModalBottomSheet(
     context: context,

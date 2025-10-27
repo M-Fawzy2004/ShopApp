@@ -10,6 +10,7 @@ import 'package:clothes_ecommerce_app/feature/categories_details/presentation/vi
 import 'package:clothes_ecommerce_app/feature/home/domain/entities/category_entity.dart';
 import 'package:clothes_ecommerce_app/feature/home/domain/entities/product_entity.dart';
 import 'package:clothes_ecommerce_app/feature/main_home/presentation/view/main_view.dart';
+import 'package:clothes_ecommerce_app/feature/order/presentation/view/order_view.dart';
 import 'package:clothes_ecommerce_app/feature/product_details/presentation/view/product_details_view.dart';
 import 'package:clothes_ecommerce_app/feature/profile/presentation/view/profile_view.dart';
 import 'package:clothes_ecommerce_app/feature/splash/presentation/view/splash_view.dart';
@@ -29,6 +30,7 @@ abstract class AppRouter {
   static const productDetailsView = '/productDetailsView';
   static const categoriesDetailsView = '/categoriesDetailsView';
   static const cartView = '/cartView';
+  static const orderView = '/orderView';
 
   static var router = GoRouter(
     routes: [
@@ -115,10 +117,18 @@ abstract class AppRouter {
           final category = state.extra as CategoryEntity;
           return CategoriesDetailsView(category: category);
         },
-      ),GoRoute(
+      ),
+      GoRoute(
         path: cartView,
         builder: (BuildContext context, GoRouterState state) {
           return const CartView();
+        },
+      ),
+      GoRoute(
+        path: orderView,
+        builder: (BuildContext context, GoRouterState state) {
+          final orderId = state.extra as String;
+          return OrderView(orderId: orderId);
         },
       ),
     ],

@@ -20,6 +20,10 @@ import 'package:clothes_ecommerce_app/feature/home/domain/use_case/search_produc
 import 'package:clothes_ecommerce_app/feature/home/presentation/manager/category_cubit/category_cubit.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/manager/product_cubit/product_cubit.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/manager/search_cubit/search_cubit.dart';
+import 'package:clothes_ecommerce_app/feature/order/data/datasources/order_service.dart';
+import 'package:clothes_ecommerce_app/feature/order/data/repo/order_repository_impl.dart';
+import 'package:clothes_ecommerce_app/feature/order/domain/repo/order_repository.dart';
+import 'package:clothes_ecommerce_app/feature/order/presentation/manager/order_cubit/order_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -110,6 +114,13 @@ Future<void> initDependencies() async {
     () => ProductRepositoryImpl(remoteDataSource: getIt()),
   );
 
+  // Order Repository
+  getIt.registerLazySingleton<OrderRepository>(
+    () => OrderRepositoryImpl(
+      orderService: getIt<OrderService>(),
+    ),
+  );
+
   ///////////////////// Use Cases /////////////////////
 
   // Get Categories Use Case
@@ -137,6 +148,11 @@ Future<void> initDependencies() async {
     ),
   );
 
+  // Order Service
+  getIt.registerLazySingleton<OrderService>(
+    () => OrderServiceImpl(),
+  );
+
   ///////////////////// Cubits /////////////////////
 
   // Auth Cubit
@@ -159,6 +175,13 @@ Future<void> initDependencies() async {
   // Search Cubit
   getIt.registerFactory(
     () => SearchCubit(searchProductsUseCase: getIt<SearchProductsUseCase>()),
+  );
+
+  // Order Cubit Factory
+  getIt.registerFactory<OrderCubit>(
+    () => OrderCubit(
+      orderRepository: getIt<OrderRepository>(),
+    ),
   );
 }
 
@@ -202,6 +225,6 @@ void setupCartDependencies(Box<Product> cartBox) {
 
 void setupFavoriteDependencies(Box<Product> favoriteBox) {
   // Register FavoritesCubit as a singleton with the favorite box
-  getIt.registerLazySingleton<FavoritesCubit>(() => FavoritesCubit(favoriteBox));
+  getIt
+      .registerLazySingleton<FavoritesCubit>(() => FavoritesCubit(favoriteBox));
 }
-

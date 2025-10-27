@@ -1,9 +1,9 @@
-import 'package:clothes_ecommerce_app/feature/cart/presentation/view/widget/order_details_form.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:clothes_ecommerce_app/core/helper/app_radius.dart';
 import 'package:clothes_ecommerce_app/core/helper/spacing.dart';
 import 'package:clothes_ecommerce_app/core/theme/app_colors.dart';
+import 'package:clothes_ecommerce_app/feature/cart/presentation/view/widget/order_details_form.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OrderConfirmationForm extends StatelessWidget {
   const OrderConfirmationForm({
@@ -11,8 +11,7 @@ class OrderConfirmationForm extends StatelessWidget {
     required this.onConfirm,
   });
 
-  final Function(String governorate, String phoneNumber, String detailedAddress)
-      onConfirm;
+  final Function(String name, String governorate, String phoneNumber, String detailedAddress, String paymentMethod) onConfirm;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +39,7 @@ class OrderConfirmationForm extends StatelessWidget {
           Flexible(
             child: SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-              child: const OrderDetailsForm(),
+              child: OrderDetailsForm(onConfirm: onConfirm),
             ),
           ),
         ],

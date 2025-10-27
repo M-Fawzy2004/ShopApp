@@ -1,4 +1,3 @@
-import 'package:clothes_ecommerce_app/core/helper/custom_snackbar.dart';
 import 'package:clothes_ecommerce_app/core/helper/spacing.dart';
 import 'package:clothes_ecommerce_app/feature/cart/presentation/view/widget/confirm_order_button.dart';
 import 'package:clothes_ecommerce_app/feature/cart/presentation/view/widget/input_field_with_label.dart';
@@ -7,20 +6,30 @@ import 'package:clothes_ecommerce_app/feature/cart/presentation/view/widget/paym
 import 'package:flutter/material.dart';
 
 class OrderDetailsForm extends StatefulWidget {
-  const OrderDetailsForm({super.key});
+  const OrderDetailsForm({super.key, required this.onConfirm});
+
+  final Function(String name, String governorate, String phoneNumber, String detailedAddress, String paymentMethod) onConfirm;
 
   @override
   State<OrderDetailsForm> createState() => _OrderDetailsFormState();
 }
 
 class _OrderDetailsFormState extends State<OrderDetailsForm> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController governorateController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController governorateController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-
   PaymentMethod selectedPaymentMethod = PaymentMethod.cashOnDelivery;
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    governorateController.dispose();
+    phoneController.dispose();
+    addressController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,20 +110,19 @@ class _OrderDetailsFormState extends State<OrderDetailsForm> {
             onPressed: () {
               if (formKey.currentState!.validate()) {
                 Navigator.pop(context);
-
+                
                 final paymentMethodText =
                     selectedPaymentMethod == PaymentMethod.cashOnDelivery
-                        ? 'Cash on Delivery'
-                        : 'Stripe Payment';
+                        ? 'cash_on_delivery'
+                        : 'stripe';
 
-                CustomSnackBar.show(
-                  context,
-                  message: 'Order placed successfully with $paymentMethodText',
-                  type: SnackBarType.success,
+                widget.onConfirm(
+                  nameController.text.trim(),
+                  governorateController.text.trim(),
+                  phoneController.text.trim(),
+                  addressController.text.trim(),
+                  paymentMethodText,
                 );
-                if (selectedPaymentMethod == PaymentMethod.stripe) {
-                  print('Processing Stripe payment...');
-                }
               }
             },
           ),

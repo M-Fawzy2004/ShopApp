@@ -5,6 +5,7 @@ import 'package:clothes_ecommerce_app/feature/cart/presentation/manager/favorite
 import 'package:clothes_ecommerce_app/feature/home/presentation/manager/category_cubit/category_cubit.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/manager/product_cubit/product_cubit.dart';
 import 'package:clothes_ecommerce_app/feature/home/presentation/manager/search_cubit/search_cubit.dart';
+import 'package:clothes_ecommerce_app/feature/order/presentation/manager/order_cubit/order_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -67,6 +68,28 @@ class AppProviders {
         ),
         BlocProvider<FavoritesCubit>(
           create: (context) => getIt<FavoritesCubit>(),
+        ),
+      ],
+      child: child,
+    );
+  }
+
+  static Widget blocProviderOrder({required Widget child}) {
+    return BlocProvider<OrderCubit>(
+      create: (context) => getIt<OrderCubit>(),
+      child: child,
+    );
+  }
+
+  // Combined provider for cart with order
+  static Widget blocProviderCartWithOrder({required Widget child}) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<CartCubit>(
+          create: (context) => getIt<CartCubit>(),
+        ),
+        BlocProvider<OrderCubit>(
+          create: (context) => getIt<OrderCubit>(),
         ),
       ],
       child: child,
