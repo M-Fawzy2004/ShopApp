@@ -61,17 +61,29 @@ Users can browse products, add them to their cart or favorites, place and track 
 <p align="center">
   <img src="screenshots/S1.png" width="30%" />
   <img src="screenshots/S2.png" width="30%" />
+  <img src="screenshots/S3.png" width="30%" />
+</p>
+<p align="center">
   <img src="screenshots/S4.png" width="30%" />
   <img src="screenshots/S5.png" width="30%" />
   <img src="screenshots/S6.png" width="30%" />
+</p>
+<p align="center">
   <img src="screenshots/S7.png" width="30%" />
   <img src="screenshots/S8.png" width="30%" />
   <img src="screenshots/S9.png" width="30%" />
+</p>
+<p align="center">
   <img src="screenshots/S10.png" width="30%" />
   <img src="screenshots/S11.png" width="30%" />
   <img src="screenshots/S12.png" width="30%" />
+</p>
+<p align="center">
   <img src="screenshots/S13.png" width="30%" />
   <img src="screenshots/S14.png" width="30%" />
   <img src="screenshots/S15.png" width="30%" />
+</p>
+<p align="center">
   <img src="screenshots/S16.png" width="30%" />
 </p>
+
