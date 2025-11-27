@@ -32,12 +32,6 @@ Users can browse products, add them to their cart or favorites, place and track 
   `Pending → Processing → Delivered`.
 - **Order Details Screen** showing all relevant information.
 
-### Multi-language & Theming
-
-- Supports **Arabic 🇪🇬** and **English 🇬🇧** using `easy_localization`.
-- **Dark / Light Mode** toggle.
-- Fully **responsive UI** for all screen sizes.
-
 ---
 
 ## Tech Stack
