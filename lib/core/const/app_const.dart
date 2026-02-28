@@ -1,12 +1,10 @@
 class AppConst {
-  /// supabase
-  static const supabaseUrl = '***REMOVED***';
-  static const supabaseKey =
-      '***REMOVED***';
+  /// supabase — loaded via --dart-define at build time, never hardcode here
+  static const supabaseUrl = String.fromEnvironment('SUPABASE_URL');
+  static const supabaseKey = String.fromEnvironment('SUPABASE_ANON_KEY');
 
-  // google client id
-  static const googleClientId =
-      '***REMOVED***';
+  // google client id — loaded via --dart-define at build time
+  static const googleClientId = String.fromEnvironment('GOOGLE_CLIENT_ID');
 
   // tabel profile users
   static const tabelProfileUser = 'profiles';
