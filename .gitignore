@@ -43,3 +43,13 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# ── Security: Secret / environment files ─────────────────────
+# These files contain real API keys and must NEVER be committed
+run_dev.ps1
+build_release.ps1
+.env
+.env.local
+.env.production
+*.secret
+secrets.dart
